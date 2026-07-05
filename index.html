@@ -329,4 +329,136 @@
       // Shopping Palma
       {id:401,type:"shopping",name:"El Corte Inglés",address:"PlaçaEspaña, Palma",note:"Stort shoppingsenter med alt fra mote til elektronikk.",lat:39.5695,lng:2.6502,activity:"shopping-palma"},
       {id:402,type:"shopping",name:"Avinguda del Rei Jaume III",address:"Palma sentrum",note:"Merketøy, sko og mote langs hovedgaten.",lat:39.5746,lng:2.6508,activity:"shopping-palma"},
-      {id:403,type:"shopping",name:"Mercat de l'Olivar",address:"Palma sentrum",note:"Markedshall med 
+      {id:403,type:"shopping",name:"Mercat de l'Olivar",address:"Palma sentrum",note:"Markedshall med mat, fisk, frukt og lokale produkter.",lat:39.5712,lng:2.6515,activity:"shopping-palma"}
+    ];
+
+    const foodOrder = ["St. Lorenzo Tapas","L.A. American Diner","La Piazzetta","My Thai","The Blue Bar","Be Max Beach House","McDonald's"];
+
+    const map = L.map('map').setView([39.5148, 2.5361], 16);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; OpenStreetMap'
+    }).addTo(map);
+
+    const iconByType = {
+      glutenfri: L.divIcon({className:'', html:'<div style="width:16px;height:16px;border-radius:50%;background:#8ef0bd;border:3px solid #fff;box-shadow:0 0 0 4px rgba(142,240,189,.18)"></div>', iconSize:[16,16], iconAnchor:[8,8]}),
+      restaurant: L.divIcon({className:'', html:'<div style="width:16px;height:16px;border-radius:50%;background:#ffd166;border:3px solid #fff;box-shadow:0 0 0 4px rgba(255,209,102,.18)"></div>', iconSize:[16,16], iconAnchor:[8,8]}),
+      sportspub: L.divIcon({className:'', html:'<div style="width:16px;height:16px;border-radius:50%;background:#ff8a8a;border:3px solid #fff;box-shadow:0 0 0 4px rgba(255,138,138,.18)"></div>', iconSize:[16,16], iconAnchor:[8,8]}),
+      aktivitet: L.divIcon({className:'', html:'<div style="width:16px;height:16px;border-radius:50%;background:#ff8a8a;border:3px solid #fff;box-shadow:0 0 0 4px rgba(255,138,138,.18)"></div>', iconSize:[16,16], iconAnchor:[8,8]}),
+      shopping: L.divIcon({className:'', html:'<div style="width:16px;height:16px;border-radius:50%;background:#4fd1ff;border:3px solid #fff;box-shadow:0 0 0 4px rgba(79,209,255,.18)"></div>', iconSize:[16,16], iconAnchor:[8,8]})
+    };
+
+    const markers = [];
+    function addMarkers(items){
+      markers.forEach(m => map.removeLayer(m));
+      markers.length = 0;
+      items.forEach(p => {
+        const m = L.marker([p.lat, p.lng], {icon: iconByType[p.type]}).addTo(map);
+        m.bindPopup(`<strong>${p.name}</strong><br>${p.address}<br>${p.note}`);
+        markers.push(m);
+      });
+    }
+
+    const listEl = document.getElementById('list');
+    const searchEl = document.getElementById('search');
+    const chips = [...document.querySelectorAll('.chip')];
+    let activeFilter = 'all';
+    let activeActivity = '';
+
+    function sortPlaces(arr){
+      return [...arr].sort((a,b) => {
+        if ((a.type === 'glutenfri' || a.type === 'restaurant') && (b.type === 'glutenfri' || b.type === 'restaurant')) {
+          return foodOrder.indexOf(a.name) - foodOrder.indexOf(b.name);
+        }
+        if (a.type !== b.type) return (''+a.type).localeCompare(b.type);
+        return a.id - b.id;
+      });
+    }
+
+    function render(){
+      const q = searchEl.value.toLowerCase().trim();
+      let filtered = places.filter(p => {
+        const hay = `${p.name} ${p.address} ${p.note} ${p.type} ${p.activity}`.toLowerCase();
+        const typeMatch =
+          activeFilter === 'all' ||
+          (activeFilter === 'glutenfri' && p.type === 'glutenfri') ||
+          (activeFilter === 'restaurant' && p.type === 'restaurant') ||
+          (activeFilter === 'sportspub' && p.type === 'sportspub') ||
+          (activeFilter === 'aktivitet' && p.type === 'aktivitet') ||
+          (activeFilter === 'shopping' && p.type === 'shopping');
+        const activityMatch = !activeActivity || p.activity === activeActivity;
+        return typeMatch && activityMatch && hay.includes(q);
+      });
+
+      filtered = sortPlaces(filtered);
+
+      listEl.innerHTML = filtered.map(p => `
+        <div class="item" data-id="${p.id}">
+          <h3>${p.name}</h3>
+          <div class="meta">${p.address}</div>
+          <div class="meta">${p.note}</div>
+          <div class="tags">
+            <span class="tag ${p.type === 'glutenfri' ? 'gf' : p.type === 'restaurant' ? 'gf' : p.type === 'sportspub' ? 'act' : p.type === 'shopping' ? 'shop' : 'vm'}">${p.type}</span>
+            <span class="tag">${p.activity}</span>
+          </div>
+        </div>
+      `).join('');
+
+      addMarkers(filtered);
+
+      document.querySelectorAll('.item').forEach(el => {
+        el.addEventListener('click', () => {
+          const p = places.find(x => x.id === Number(el.dataset.id));
+          if (!p) return;
+          map.setView([p.lat, p.lng], 17, {animate:true});
+          const marker = markers.find(m => {
+            const ll = m.getLatLng();
+            return Math.abs(ll.lat - p.lat) < 0.0001 && Math.abs(ll.lng - p.lng) < 0.0001;
+          });
+          if (marker) marker.openPopup();
+        });
+      });
+    }
+
+    chips.forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (btn.dataset.filter) {
+          chips.filter(x => x.dataset.filter).forEach(x => x.classList.remove('active'));
+          btn.classList.add('active');
+          activeFilter = btn.dataset.filter;
+        }
+        if (btn.dataset.activity) {
+          const same = activeActivity === btn.dataset.activity;
+          activeActivity = same ? '' : btn.dataset.activity;
+          chips.filter(x => x.dataset.activity).forEach(x => x.classList.remove('active'));
+          if (!same) btn.classList.add('active');
+        }
+        render();
+      });
+    });
+
+    searchEl.addEventListener('input', render);
+
+    // Vær 16.–21. juli
+    const weather = [
+      ["16. juli","30°C / 24°C","Øst 10 km/t","UV 9","Rolig og varmt"],
+      ["17. juli","31°C / 25°C","Sør 14 km/t","UV 10","Sterk sol"],
+      ["18. juli","32°C / 25°C","Sørøst 11 km/t","UV 10","Bronsefinale-kveld"],
+      ["19. juli","32°C / 25°C","Sørøst 13 km/t","UV 10","Finalekveld"],
+      ["20. juli","31°C / 24°C","Vest 9 km/t","UV 9","Lett bris"],
+      ["21. juli","30°C / 24°C","Nordøst 11 km/t","UV 9","Varm dag"]
+    ];
+    document.getElementById('weatherGridTop').innerHTML = weather.map(d => `
+      <div class="day">
+        <div class="d">${d[0]}</div>
+        <div class="t">${d[1]}</div>
+        <div class="t">${d[2]}</div>
+        <div class="t">${d[3]}</div>
+        <div class="t">${d[4]}</div>
+      </div>
+    `).join('');
+
+    render();
+  </script>
+</body>
+</html>
