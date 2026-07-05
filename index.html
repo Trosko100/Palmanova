@@ -3,7 +3,26 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
-  <title>Bekkeblomveien på tur i Palmanova</title>
+  <title>Bekkeblomveien i Palmanova</title>
+  <meta name="description" content="Mobiltilpasset reiseapp med interaktivt kart over glutenfri mat, sportspuber, aktiviteter og shopping langs Passeig Mar i Palmanova." />
+
+  <!-- Open Graph / Facebook / Messenger -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Bekkeblomveien i Palmanova" />
+  <meta property="og:description" content="Mobiltilpasset reiseapp med interaktivt kart over glutenfri mat, sportspuber, aktiviteter og shopping langs Passeig Mar i Palmanova." />
+  <meta property="og:url" content="https://DITT_BRUKERNAVN.github.io/Palmanova/" />
+  <meta property="og:image" content="https://DITT_BRUKERNAVN.github.io/Palmanova/og-image.jpg" />
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Bekkeblomveien i Palmanova" />
+  <meta name="twitter:description" content="Mobiltilpasset reiseapp med interaktivt kart over glutenfri mat, sportspuber, aktiviteter og shopping langs Passeig Mar i Palmanova." />
+  <meta name="twitter:image" content="https://DITT_BRUKERNAVN.github.io/Palmanova/og-image.jpg" />
+
+  <!-- Favicon (valgfritt) -->
+  <link rel="icon" href="favicon.ico">
+
+  <!-- Fonts og Leaflet CSS -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -36,7 +55,7 @@
       min-height:100vh;
     }
     .hero{
-      padding:18px 16px 14px;
+      padding:16px 16px 12px;
       border-bottom:1px solid rgba(255,255,255,.08);
       background:
         linear-gradient(180deg, rgba(255,255,255,.06), transparent 35%),
@@ -49,7 +68,7 @@
     }
     h1{
       margin:0;
-      font-size:clamp(1.6rem,5vw,2.6rem);
+      font-size:clamp(1.35rem,4.8vw,2.2rem);
       line-height:1.05;
       letter-spacing:-.03em;
     }
@@ -58,46 +77,46 @@
       max-width:720px;
       color:rgba(255,255,255,.85);
       line-height:1.5;
-      font-size:.95rem;
+      font-size:.92rem;
     }
 
     /* Weather right under title */
     .weather-top{
-      margin-top:14px;
-      padding:12px;
-      border-radius:18px;
+      margin-top:12px;
+      padding:10px;
+      border-radius:16px;
       background:rgba(255,255,255,.06);
       border:1px solid rgba(255,255,255,.10);
     }
     .weather-top h2{
-      margin:0 0 10px;
-      font-size:1.02rem;
+      margin:0 0 8px;
+      font-size:.98rem;
     }
     .weather-grid-top{
       display:grid;
-      grid-template-columns:repeat(6, minmax(90px, 1fr));
+      grid-template-columns:repeat(6, minmax(86px, 1fr));
       gap:8px;
       overflow:auto;
       padding-bottom:2px;
     }
     .day{
-      min-width:90px;
+      min-width:86px;
       border-radius:14px;
-      padding:10px;
+      padding:9px;
       background:rgba(0,0,0,.22);
       border:1px solid rgba(255,255,255,.09);
     }
-    .day .d{font-weight:800; margin-bottom:6px; font-size:.92rem}
-    .day .t{color:var(--muted); font-size:.82rem; line-height:1.35}
+    .day .d{font-weight:800; margin-bottom:6px; font-size:.9rem}
+    .day .t{color:var(--muted); font-size:.8rem; line-height:1.35}
 
     /* Layout mobile-first */
     .layout{
       max-width:1200px;
       margin:0 auto;
-      padding:14px;
+      padding:12px;
       display:grid;
       grid-template-columns:1fr;
-      gap:14px;
+      gap:12px;
       align-items:start;
     }
     .panel{
@@ -108,18 +127,18 @@
       box-shadow:var(--shadow);
     }
     .sidebar{
-      padding:12px;
+      padding:10px;
     }
     .section-title{
-      margin:4px 0 10px;
-      font-size:1.02rem;
+      margin:4px 0 8px;
+      font-size:1rem;
       letter-spacing:-.02em;
     }
     .filters{
       display:flex;
       flex-wrap:wrap;
       gap:8px;
-      margin-bottom:10px;
+      margin-bottom:8px;
     }
     .chip{
       cursor:pointer;
@@ -127,24 +146,24 @@
       color:var(--text);
       background:rgba(255,255,255,.08);
       border:1px solid rgba(255,255,255,.12);
-      padding:9px 11px;
+      padding:8px 10px;
       border-radius:999px;
       font-weight:700;
-      font-size:.85rem;
+      font-size:.82rem;
       transition:.15s transform, .15s background, .15s border-color;
     }
     .chip:hover{transform:translateY(-1px)}
     .chip.active{background:rgba(79,209,255,.20); border-color:rgba(79,209,255,.40)}
     .search{
       width:100%;
-      margin:0 0 10px;
-      padding:12px 13px;
+      margin:0 0 8px;
+      padding:11px 12px;
       border-radius:14px;
       border:1px solid rgba(255,255,255,.12);
       background:rgba(0,0,0,.20);
       color:var(--text);
       outline:none;
-      font-size:1rem;
+      font-size:.95rem;
     }
     .search::placeholder{color:#8fa3bb}
     .list{
@@ -159,13 +178,13 @@
       background:var(--panel2);
       border:1px solid rgba(255,255,255,.09);
       border-radius:16px;
-      padding:12px;
+      padding:11px;
       cursor:pointer;
       transition:.15s transform, .15s border-color;
     }
     .item:hover{transform:translateY(-1px); border-color:rgba(255,255,255,.18)}
-    .item h3{margin:0 0 5px; font-size:.98rem}
-    .meta{color:var(--muted); font-size:.86rem; line-height:1.4}
+    .item h3{margin:0 0 5px; font-size:.95rem}
+    .meta{color:var(--muted); font-size:.84rem; line-height:1.4}
     .tags{display:flex; gap:6px; flex-wrap:wrap; margin-top:8px}
     .tag{
       display:inline-block;
@@ -191,7 +210,7 @@
     .footer-note{
       margin-top:10px;
       color:var(--muted);
-      font-size:.82rem;
+      font-size:.8rem;
       line-height:1.4;
     }
     @media (min-width: 900px){
@@ -221,10 +240,7 @@
   <header class="hero">
     <div class="hero-inner">
       <div>
-        <h1>Bekkeblomveien på tur i Palmanova</h1>
-        <p class="subtitle">
-          Mobiltilpasset reiseapp med fokus på Passeig Mar og sidegatene.
-        </p>
+        <h1>Bekkeblomveien i Palmanova</h1>
 
         <!-- Værmelding rett under overskrift -->
         <div class="weather-top">
@@ -242,6 +258,7 @@
       <div class="filters">
         <button class="chip active" data-filter="all">Alle steder</button>
         <button class="chip" data-filter="glutenfri">Glutenfri mat</button>
+        <button class="chip" data-filter="restaurant">Restauranter</button>
         <button class="chip" data-filter="sportspub">Sportspuber</button>
         <button class="chip" data-filter="aktivitet">Aktiviteter</button>
         <button class="chip" data-filter="shopping">Shopping</button>
@@ -249,7 +266,6 @@
 
       <div class="filters">
         <button class="chip" data-activity="golf">Golf</button>
-        <button class="chip" data-activity="gaming">Gaming</button>
         <button class="chip" data-activity="vannsport">Vannsport</button>
         <button class="chip" data-activity="trening">Trening</button>
         <button class="chip" data-activity="sykkelutleie">Sykkelutleie</button>
@@ -281,6 +297,15 @@
       {id:4,type:"glutenfri",name:"My Thai",address:"Passeig Mar, 12",note:"Glutenfrie valg i menyen.",lat:39.5155,lng:2.5368,activity:"mat"},
       {id:5,type:"glutenfri",name:"The Blue Bar",address:"Palmanova strandsonen",note:"Glutenfri mat, brød og pasta.",lat:39.5150,lng:2.5329,activity:"mat"},
       {id:6,type:"glutenfri",name:"Be Max Beach House",address:"Carrer Cala Blanca",note:"Strandnær restaurant med GF-alternativer.",lat:39.5149,lng:2.5327,activity:"mat"},
+      {id:7,type:"glutenfri",name:"McDonald's",address:"Palmanova / nærområdet",note:"Kjeden med standardisert meny, flere steder i området.",lat:39.5152,lng:2.5355,activity:"mat"},
+
+      // Restauranter (ikke glutenfrie)
+      {id:20,type:"restaurant",name:"Olive Tree",address:"Palmanova",note:"Middelhavsinspirert meny.",lat:39.5151,lng:2.5362,activity:"mat"},
+      {id:21,type:"restaurant",name:"Iroko",address:"Palmanova",note:"Fusion og grill.",lat:39.5148,lng:2.5370,activity:"mat"},
+      {id:22,type:"restaurant",name:"Max Garden",address:"Palmanova",note:"Moderne restaurant med vekt på matopplevelse.",lat:39.5156,lng:2.5368,activity:"mat"},
+      {id:23,type:"restaurant",name:"Siso Beach",address:"Palmanova strandsonen",note:"Beach-restaurant med cocktails.",lat:39.5149,lng:2.5325,activity:"mat"},
+      {id:24,type:"restaurant",name:"Origin (roof top)",address:"Palmanova",note:"Roof top med utsikt og drinker.",lat:39.5153,lng:2.5360,activity:"mat"},
+      {id:25,type:"restaurant",name:"La vista",address:"Palmanova",note:"Restaurant med utsikt over området.",lat:39.5147,lng:2.5358,activity:"mat"},
 
       // Sportspub
       {id:101,type:"sportspub",name:"PNG Sports Bar",address:"Passeig Mar, 32, Local 2",note:"Live sport på flere skjermer.",lat:39.5152,lng:2.5376,activity:"vm"},
@@ -289,144 +314,19 @@
 
       // Aktiviteter
       {id:201,type:"aktivitet",name:"Golf",address:"Palma Nova / nærområdet",note:"Golf og greenfee i regionen.",lat:39.5190,lng:2.5350,activity:"golf"},
-      {id:202,type:"aktivitet",name:"Gaming",address:"Overnatting / leilighet",note:"Fritidskort for spill og innendørs moro.",lat:39.5139,lng:2.5349,activity:"gaming"},
-      {id:203,type:"aktivitet",name:"Vannsport",address:"Stranden",note:"Padlebrett, bading og sjøaktiviteter.",lat:39.5158,lng:2.5328,activity:"vannsport"},
+      {id:203,type:"aktivitet",name:"Vannsport",address:"Stranden",note:"Jet-ski utleie, båtturer, bananbåt, parasailing og andre actionpreget aktiviteter.",lat:39.5158,lng:2.5328,activity:"vannsport"},
       {id:204,type:"aktivitet",name:"Trening",address:"Promenade / studio",note:"Løp, styrke og strandtrening.",lat:39.5143,lng:2.5382,activity:"trening"},
       {id:205,type:"aktivitet",name:"Sykkelutleie",address:"Sentrumsområdet",note:"Leie sykkel for strandpromenade og korte turer.",lat:39.5147,lng:2.5370,activity:"sykkelutleie"},
 
       // Shopping Palmanova
       {id:301,type:"shopping",name:"Passeig Mar-butikkene",address:"Passeig Mar",note:"Suvenirer, klær, solutstyr og småbutikker langs hovedgaten.",lat:39.5155,lng:2.5368,activity:"shopping-palmanova"},
       {id:302,type:"shopping",name:"Lokale matbutikker",address:"Sidegatene Palmanova",note:"Dagligvarer, snacks og drikke til hytta/leiligheten.",lat:39.5147,lng:2.5360,activity:"shopping-palmanova"},
+      {id:303,type:"shopping",name:"Luya Accesorios",address:"Palmanova",note:"Accessories, smykker og småting.",lat:39.5150,lng:2.5365,activity:"shopping-palmanova"},
+      {id:304,type:"shopping",name:"Coco Beach",address:"Palmanova strandsonen",note:"Strandklær, badedrakter og souvenirs.",lat:39.5148,lng:2.5332,activity:"shopping-palmanova"},
+      {id:305,type:"shopping",name:"Tabu Mall",address:"Palmanova",note:"Mindre senter med utvalg av butikker.",lat:39.5153,lng:2.5372,activity:"shopping-palmanova"},
+      {id:306,type:"shopping",name:"Ibizaabi",address:"Palmanova",note:"Mote og lifestyle-butikk.",lat:39.5151,lng:2.5363,activity:"shopping-palmanova"},
 
       // Shopping Palma
       {id:401,type:"shopping",name:"El Corte Inglés",address:"PlaçaEspaña, Palma",note:"Stort shoppingsenter med alt fra mote til elektronikk.",lat:39.5695,lng:2.6502,activity:"shopping-palma"},
       {id:402,type:"shopping",name:"Avinguda del Rei Jaume III",address:"Palma sentrum",note:"Merketøy, sko og mote langs hovedgaten.",lat:39.5746,lng:2.6508,activity:"shopping-palma"},
-      {id:403,type:"shopping",name:"Mercat de l'Olivar",address:"Palma sentrum",note:"Markedshall med mat, fisk, frukt og lokale produkter.",lat:39.5712,lng:2.6515,activity:"shopping-palma"}
-    ];
-
-    const foodOrder = ["St. Lorenzo Tapas","L.A. American Diner","La Piazzetta","My Thai","The Blue Bar","Be Max Beach House"];
-
-    const map = L.map('map').setView([39.5148, 2.5361], 16);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '&copy; OpenStreetMap'
-    }).addTo(map);
-
-    const iconByType = {
-      glutenfri: L.divIcon({className:'', html:'<div style="width:16px;height:16px;border-radius:50%;background:#8ef0bd;border:3px solid #fff;box-shadow:0 0 0 4px rgba(142,240,189,.18)"></div>', iconSize:[16,16], iconAnchor:[8,8]}),
-      sportspub: L.divIcon({className:'', html:'<div style="width:16px;height:16px;border-radius:50%;background:#ffd166;border:3px solid #fff;box-shadow:0 0 0 4px rgba(255,209,102,.18)"></div>', iconSize:[16,16], iconAnchor:[8,8]}),
-      aktivitet: L.divIcon({className:'', html:'<div style="width:16px;height:16px;border-radius:50%;background:#ff8a8a;border:3px solid #fff;box-shadow:0 0 0 4px rgba(255,138,138,.18)"></div>', iconSize:[16,16], iconAnchor:[8,8]}),
-      shopping: L.divIcon({className:'', html:'<div style="width:16px;height:16px;border-radius:50%;background:#4fd1ff;border:3px solid #fff;box-shadow:0 0 0 4px rgba(79,209,255,.18)"></div>', iconSize:[16,16], iconAnchor:[8,8]})
-    };
-
-    const markers = [];
-    function addMarkers(items){
-      markers.forEach(m => map.removeLayer(m));
-      markers.length = 0;
-      items.forEach(p => {
-        const m = L.marker([p.lat, p.lng], {icon: iconByType[p.type]}).addTo(map);
-        m.bindPopup(`<strong>${p.name}</strong><br>${p.address}<br>${p.note}`);
-        markers.push(m);
-      });
-    }
-
-    const listEl = document.getElementById('list');
-    const searchEl = document.getElementById('search');
-    const chips = [...document.querySelectorAll('.chip')];
-    let activeFilter = 'all';
-    let activeActivity = '';
-
-    function sortPlaces(arr){
-      return [...arr].sort((a,b) => {
-        if (a.type === 'glutenfri' && b.type === 'glutenfri') return foodOrder.indexOf(a.name) - foodOrder.indexOf(b.name);
-        if (a.type !== b.type) return (''+a.type).localeCompare(b.type);
-        return a.id - b.id;
-      });
-    }
-
-    function render(){
-      const q = searchEl.value.toLowerCase().trim();
-      let filtered = places.filter(p => {
-        const hay = `${p.name} ${p.address} ${p.note} ${p.type} ${p.activity}`.toLowerCase();
-        const typeMatch =
-          activeFilter === 'all' ||
-          (activeFilter === 'glutenfri' && p.type === 'glutenfri') ||
-          (activeFilter === 'sportspub' && p.type === 'sportspub') ||
-          (activeFilter === 'aktivitet' && p.type === 'aktivitet') ||
-          (activeFilter === 'shopping' && p.type === 'shopping');
-        const activityMatch = !activeActivity || p.activity === activeActivity;
-        return typeMatch && activityMatch && hay.includes(q);
-      });
-
-      filtered = sortPlaces(filtered);
-
-      listEl.innerHTML = filtered.map(p => `
-        <div class="item" data-id="${p.id}">
-          <h3>${p.name}</h3>
-          <div class="meta">${p.address}</div>
-          <div class="meta">${p.note}</div>
-          <div class="tags">
-            <span class="tag ${p.type === 'glutenfri' ? 'gf' : p.type === 'sportspub' ? 'act' : p.type === 'shopping' ? 'shop' : 'vm'}">${p.type}</span>
-            <span class="tag">${p.activity}</span>
-          </div>
-        </div>
-      `).join('');
-
-      addMarkers(filtered);
-
-      document.querySelectorAll('.item').forEach(el => {
-        el.addEventListener('click', () => {
-          const p = places.find(x => x.id === Number(el.dataset.id));
-          if (!p) return;
-          map.setView([p.lat, p.lng], 17, {animate:true});
-          const marker = markers.find(m => {
-            const ll = m.getLatLng();
-            return Math.abs(ll.lat - p.lat) < 0.0001 && Math.abs(ll.lng - p.lng) < 0.0001;
-          });
-          if (marker) marker.openPopup();
-        });
-      });
-    }
-
-    chips.forEach(btn => {
-      btn.addEventListener('click', () => {
-        if (btn.dataset.filter) {
-          chips.filter(x => x.dataset.filter).forEach(x => x.classList.remove('active'));
-          btn.classList.add('active');
-          activeFilter = btn.dataset.filter;
-        }
-        if (btn.dataset.activity) {
-          const same = activeActivity === btn.dataset.activity;
-          activeActivity = same ? '' : btn.dataset.activity;
-          chips.filter(x => x.dataset.activity).forEach(x => x.classList.remove('active'));
-          if (!same) btn.classList.add('active');
-        }
-        render();
-      });
-    });
-
-    searchEl.addEventListener('input', render);
-
-    // Vær 16.–21. juli
-    const weather = [
-      ["16. juli","30°C / 24°C","Øst 10 km/t","UV 9","Rolig og varmt"],
-      ["17. juli","31°C / 25°C","Sør 14 km/t","UV 10","Sterk sol"],
-      ["18. juli","32°C / 25°C","Sørøst 11 km/t","UV 10","Bronsefinale-kveld"],
-      ["19. juli","32°C / 25°C","Sørøst 13 km/t","UV 10","Finalekveld"],
-      ["20. juli","31°C / 24°C","Vest 9 km/t","UV 9","Lett bris"],
-      ["21. juli","30°C / 24°C","Nordøst 11 km/t","UV 9","Varm dag"]
-    ];
-    document.getElementById('weatherGridTop').innerHTML = weather.map(d => `
-      <div class="day">
-        <div class="d">${d[0]}</div>
-        <div class="t">${d[1]}</div>
-        <div class="t">${d[2]}</div>
-        <div class="t">${d[3]}</div>
-        <div class="t">${d[4]}</div>
-      </div>
-    `).join('');
-
-    render();
-  </script>
-</body>
-</html>
+      {id:403,type:"shopping",name:"Mercat de l'Olivar",address:"Palma sentrum",note:"Markedshall med 
