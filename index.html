@@ -4,25 +4,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
   <title>Bekkeblomveien i Palmanova</title>
-  <meta name="description" content="Mobiltilpasset reiseapp med interaktivt kart over glutenfri mat, sportspuber, aktiviteter og shopping langs Passeig Mar i Palmanova." />
+  <meta name="description" content="Mobiltilpasset reiseapp med interaktivt kart over glutenfri mat, restauranter, sportspuber, aktiviteter, shopping og hotell langs Passeig Mar i Palmanova." />
 
-  <!-- Open Graph / Facebook / Messenger -->
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="Bekkeblomveien i Palmanova" />
-  <meta property="og:description" content="Mobiltilpasset reiseapp med interaktivt kart over glutenfri mat, sportspuber, aktiviteter og shopping langs Passeig Mar i Palmanova." />
-  <meta property="og:url" content="https://DITT_BRUKERNAVN.github.io/Palmanova/" />
-  <meta property="og:image" content="https://DITT_BRUKERNAVN.github.io/Palmanova/og-image.jpg" />
-
-  <!-- Twitter / X -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Bekkeblomveien i Palmanova" />
-  <meta name="twitter:description" content="Mobiltilpasset reiseapp med interaktivt kart over glutenfri mat, sportspuber, aktiviteter og shopping langs Passeig Mar i Palmanova." />
-  <meta name="twitter:image" content="https://DITT_BRUKERNAVN.github.io/Palmanova/og-image.jpg" />
-
-  <!-- Favicon (valgfritt) -->
-  <link rel="icon" href="favicon.ico">
-
-  <!-- Fonts og Leaflet CSS -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -30,14 +13,12 @@
   <style>
     :root{
       --bg:#07111f;
-      --bg2:#0b1730;
-      --panel:rgba(10,18,34,.72);
-      --panel2:rgba(10,18,34,.92);
-      --line:rgba(255,255,255,.10);
+      --panel:rgba(10,18,34,.82);
+      --panel2:rgba(10,18,34,.94);
+      --line:rgba(255,255,255,.12);
       --text:#f5f8fc;
       --muted:#b7c4d6;
       --sea:#4fd1ff;
-      --sand:#ffd98a;
       --green:#8ef0bd;
       --yellow:#ffcf5a;
       --red:#ff8a8a;
@@ -55,10 +36,10 @@
       min-height:100vh;
     }
     .hero{
-      padding:16px 16px 12px;
+      padding:12px 12px 10px;
       border-bottom:1px solid rgba(255,255,255,.08);
       background:
-        linear-gradient(180deg, rgba(255,255,255,.06), transparent 35%),
+        linear-gradient(180deg, rgba(255,255,255,.05), transparent 35%),
         radial-gradient(circle at 15% 18%, rgba(255,220,120,.16), transparent 16%),
         radial-gradient(circle at 88% 20%, rgba(79,209,255,.12), transparent 18%);
     }
@@ -66,23 +47,84 @@
       max-width:1200px;
       margin:0 auto;
     }
+    .hero-row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
     h1{
       margin:0;
-      font-size:clamp(1.35rem,4.8vw,2.2rem);
+      font-size:clamp(1.35rem,4.2vw,2.0rem);
       line-height:1.05;
       letter-spacing:-.03em;
+      white-space:nowrap;
     }
-    .subtitle{
-      margin:8px 0 0;
-      max-width:720px;
-      color:rgba(255,255,255,.85);
-      line-height:1.5;
-      font-size:.92rem;
+    .reise-btn{
+      border:none;
+      border-radius:999px;
+      padding:8px 14px;
+      background:rgba(79,209,255,.25);
+      border:1px solid rgba(79,209,255,.55);
+      color:var(--text);
+      font-weight:700;
+      font-size:.85rem;
+      cursor:pointer;
+      backdrop-filter: blur(12px);
     }
+    .reise-btn:hover{background:rgba(79,209,255,.35)}
+    .top-bar{
+      margin-top:8px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .currency-box{
+      flex:1;
+      min-width:0;
+      display:flex;
+      align-items:center;
+      gap:6px;
+      padding:8px 10px;
+      border-radius:999px;
+      background:rgba(0,0,0,.35);
+      border:1px solid rgba(255,255,255,.10);
+    }
+    .currency-box label{
+      font-size:.8rem;
+      color:var(--muted);
+      white-space:nowrap;
+    }
+    .currency-input{
+      flex:0 0 70px;
+      padding:6px 8px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.16);
+      background:rgba(0,0,0,.45);
+      color:var(--text);
+      font-size:.8rem;
+      outline:none;
+    }
+    .currency-output{
+      font-size:.8rem;
+      color:#e5f9ff;
+      white-space:nowrap;
+    }
+    .emergency{
+      flex:0 0 auto;
+      padding:8px 10px;
+      border-radius:999px;
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.12);
+      font-size:.8rem;
+      color:var(--muted);
+      white-space:nowrap;
+    }
+    .emergency strong{color:#ffd166}
 
-    /* Weather right under title */
     .weather-top{
-      margin-top:12px;
+      margin-top:10px;
       padding:10px;
       border-radius:16px;
       background:rgba(255,255,255,.06);
@@ -109,7 +151,6 @@
     .day .d{font-weight:800; margin-bottom:6px; font-size:.9rem}
     .day .t{color:var(--muted); font-size:.8rem; line-height:1.35}
 
-    /* Layout mobile-first */
     .layout{
       max-width:1200px;
       margin:0 auto;
@@ -196,9 +237,10 @@
       border:1px solid rgba(255,255,255,.10);
     }
     .tag.gf{background:rgba(142,240,189,.14)}
-    .tag.act{background:rgba(255,209,102,.14)}
+    .tag.rest{background:rgba(255,209,102,.14)}
     .tag.vm{background:rgba(255,138,138,.14)}
     .tag.shop{background:rgba(79,209,255,.14)}
+    .tag.hotel{background:rgba(255,255,255,.10)}
     .map-wrap{padding:10px}
     #map{
       width:100%;
@@ -222,10 +264,7 @@
         top:12px;
       }
       .hero-inner{
-        display:grid;
-        grid-template-columns:1.1fr .9fr;
-        gap:16px;
-        align-items:end;
+        max-width:1200px;
       }
       #map{
         height:620px;
@@ -239,14 +278,25 @@
 <body>
   <header class="hero">
     <div class="hero-inner">
-      <div>
+      <div class="hero-row">
         <h1>Bekkeblomveien i Palmanova</h1>
+        <button class="reise-btn" onclick="window.location.href='reise.html'">Reise</button>
+      </div>
 
-        <!-- Værmelding rett under overskrift -->
-        <div class="weather-top">
-          <h2>Værmelding 16.–21. juli</h2>
-          <div class="weather-grid-top" id="weatherGridTop"></div>
+      <div class="top-bar">
+        <div class="currency-box">
+          <label for="eurInput">Valuta: EUR → NOK</label>
+          <input id="eurInput" class="currency-input" type="number" inputmode="decimal" placeholder="EUR" />
+          <div class="currency-output" id="nokOutput">≈ 0 NOK</div>
         </div>
+        <div class="emergency">
+          <strong>Nødnummer:</strong> Brann 080 – Lege 061 – Politi 112
+        </div>
+      </div>
+
+      <div class="weather-top">
+        <h2>Værmelding 16.–21. juli</h2>
+        <div class="weather-grid-top" id="weatherGridTop"></div>
       </div>
     </div>
   </header>
@@ -257,18 +307,15 @@
 
       <div class="filters">
         <button class="chip active" data-filter="all">Alle steder</button>
-        <button class="chip" data-filter="glutenfri">Glutenfri mat</button>
+        <button class="chip" data-filter="glutenfri">Glutenfri</button>
         <button class="chip" data-filter="restaurant">Restauranter</button>
         <button class="chip" data-filter="sportspub">Sportspuber</button>
         <button class="chip" data-filter="aktivitet">Aktiviteter</button>
         <button class="chip" data-filter="shopping">Shopping</button>
+        <button class="chip" data-filter="hotell">Hotell</button>
       </div>
 
       <div class="filters">
-        <button class="chip" data-activity="golf">Golf</button>
-        <button class="chip" data-activity="vannsport">Vannsport</button>
-        <button class="chip" data-activity="trening">Trening</button>
-        <button class="chip" data-activity="sykkelutleie">Sykkelutleie</button>
         <button class="chip" data-activity="shopping-palmanova">Shopping Palmanova</button>
         <button class="chip" data-activity="shopping-palma">Shopping Palma</button>
       </div>
@@ -306,14 +353,20 @@
       {id:23,type:"restaurant",name:"Siso Beach",address:"Palmanova strandsonen",note:"Beach-restaurant med cocktails.",lat:39.5149,lng:2.5325,activity:"mat"},
       {id:24,type:"restaurant",name:"Origin (roof top)",address:"Palmanova",note:"Roof top med utsikt og drinker.",lat:39.5153,lng:2.5360,activity:"mat"},
       {id:25,type:"restaurant",name:"La vista",address:"Palmanova",note:"Restaurant med utsikt over området.",lat:39.5147,lng:2.5358,activity:"mat"},
+      {id:26,type:"restaurant",name:"Turtle Beach Palmanova",address:"Palmanova strandsonen",note:"Beach-restaurant og bar.",lat:39.5152,lng:2.5333,activity:"mat"},
+      {id:27,type:"restaurant",name:"Il Chiringo Beach",address:"Palmanova strandsonen",note:"Chiringuito-stil ved stranden.",lat:39.5154,lng:2.5330,activity:"mat"},
+      {id:28,type:"restaurant",name:"Calvia Beach House",address:"Palmanova",note:"Restaurant med utsikt mot havet.",lat:39.5145,lng:2.5338,activity:"mat"},
+      {id:29,type:"restaurant",name:"Paradise Beach",address:"Palmanova strandsonen",note:"Enkel beach bar og mat.",lat:39.5156,lng:2.5331,activity:"mat"},
+      {id:30,type:"restaurant",name:"Bamboo Beach Bar",address:"Palmanova strandsonen",note:"Bar og snacks ved stranden.",lat:39.5151,lng:2.5327,activity:"mat"},
+      {id:31,type:"restaurant",name:"KABO Beach House",address:"Palmanova strandsonen",note:"Beach house med mat og drinker.",lat:39.5147,lng:2.5329,activity:"mat"},
+      {id:32,type:"restaurant",name:"Mar Sea Club",address:"Palmanova",note:"Klubb/restaurant ved sjøen.",lat:39.5144,lng:2.5334,activity:"mat"},
 
       // Sportspub
       {id:101,type:"sportspub",name:"PNG Sports Bar",address:"Passeig Mar, 32, Local 2",note:"Live sport på flere skjermer.",lat:39.5152,lng:2.5376,activity:"vm"},
       {id:102,type:"sportspub",name:"O'Neill's Bar",address:"Carrer de París, 8, 9",note:"Klassisk pub med sportsendinger.",lat:39.5149,lng:2.5368,activity:"vm"},
       {id:103,type:"sportspub",name:"JJs Sports Lounge",address:"Sidegate ved Palmanova sentrum",note:"Sportslounge til kampkveld.",lat:39.5146,lng:2.5354,activity:"vm"},
 
-      // Aktiviteter
-      {id:201,type:"aktivitet",name:"Golf",address:"Palma Nova / nærområdet",note:"Golf og greenfee i regionen.",lat:39.5190,lng:2.5350,activity:"golf"},
+      // Aktiviteter (punktene beholdes)
       {id:203,type:"aktivitet",name:"Vannsport",address:"Stranden",note:"Jet-ski utleie, båtturer, bananbåt, parasailing og andre actionpreget aktiviteter.",lat:39.5158,lng:2.5328,activity:"vannsport"},
       {id:204,type:"aktivitet",name:"Trening",address:"Promenade / studio",note:"Løp, styrke og strandtrening.",lat:39.5143,lng:2.5382,activity:"trening"},
       {id:205,type:"aktivitet",name:"Sykkelutleie",address:"Sentrumsområdet",note:"Leie sykkel for strandpromenade og korte turer.",lat:39.5147,lng:2.5370,activity:"sykkelutleie"},
@@ -329,7 +382,10 @@
       // Shopping Palma
       {id:401,type:"shopping",name:"El Corte Inglés",address:"PlaçaEspaña, Palma",note:"Stort shoppingsenter med alt fra mote til elektronikk.",lat:39.5695,lng:2.6502,activity:"shopping-palma"},
       {id:402,type:"shopping",name:"Avinguda del Rei Jaume III",address:"Palma sentrum",note:"Merketøy, sko og mote langs hovedgaten.",lat:39.5746,lng:2.6508,activity:"shopping-palma"},
-      {id:403,type:"shopping",name:"Mercat de l'Olivar",address:"Palma sentrum",note:"Markedshall med mat, fisk, frukt og lokale produkter.",lat:39.5712,lng:2.6515,activity:"shopping-palma"}
+      {id:403,type:"shopping",name:"Mercat de l'Olivar",address:"Palma sentrum",note:"Markedshall med mat, fisk, frukt og lokale produkter.",lat:39.5712,lng:2.6515,activity:"shopping-palma"},
+
+      // Hotell
+      {id:501,type:"hotell",name:"Suites ROC Portonova",address:"Palmanova",note:"Leilighetshotell ved sjøen.",lat:39.5153,lng:2.5339,activity:"hotell"}
     ];
 
     const foodOrder = ["St. Lorenzo Tapas","L.A. American Diner","La Piazzetta","My Thai","The Blue Bar","Be Max Beach House","McDonald's"];
@@ -345,7 +401,8 @@
       restaurant: L.divIcon({className:'', html:'<div style="width:16px;height:16px;border-radius:50%;background:#ffd166;border:3px solid #fff;box-shadow:0 0 0 4px rgba(255,209,102,.18)"></div>', iconSize:[16,16], iconAnchor:[8,8]}),
       sportspub: L.divIcon({className:'', html:'<div style="width:16px;height:16px;border-radius:50%;background:#ff8a8a;border:3px solid #fff;box-shadow:0 0 0 4px rgba(255,138,138,.18)"></div>', iconSize:[16,16], iconAnchor:[8,8]}),
       aktivitet: L.divIcon({className:'', html:'<div style="width:16px;height:16px;border-radius:50%;background:#ff8a8a;border:3px solid #fff;box-shadow:0 0 0 4px rgba(255,138,138,.18)"></div>', iconSize:[16,16], iconAnchor:[8,8]}),
-      shopping: L.divIcon({className:'', html:'<div style="width:16px;height:16px;border-radius:50%;background:#4fd1ff;border:3px solid #fff;box-shadow:0 0 0 4px rgba(79,209,255,.18)"></div>', iconSize:[16,16], iconAnchor:[8,8]})
+      shopping: L.divIcon({className:'', html:'<div style="width:16px;height:16px;border-radius:50%;background:#4fd1ff;border:3px solid #fff;box-shadow:0 0 0 4px rgba(79,209,255,.18)"></div>', iconSize:[16,16], iconAnchor:[8,8]}),
+      hotell: L.divIcon({className:'', html:'<div style="width:16px;height:16px;border-radius:50%;background:#ffffff;border:3px solid #fff;box-shadow:0 0 0 4px rgba(255,255,255,.18)"></div>', iconSize:[16,16], iconAnchor:[8,8]})
     };
 
     const markers = [];
@@ -368,7 +425,12 @@
     function sortPlaces(arr){
       return [...arr].sort((a,b) => {
         if ((a.type === 'glutenfri' || a.type === 'restaurant') && (b.type === 'glutenfri' || b.type === 'restaurant')) {
-          return foodOrder.indexOf(a.name) - foodOrder.indexOf(b.name);
+          const ia = foodOrder.indexOf(a.name);
+          const ib = foodOrder.indexOf(b.name);
+          if (ia === -1 && ib === -1) return a.name.localeCompare(b.name);
+          if (ia === -1) return 1;
+          if (ib === -1) return -1;
+          return ia - ib;
         }
         if (a.type !== b.type) return (''+a.type).localeCompare(b.type);
         return a.id - b.id;
@@ -385,7 +447,8 @@
           (activeFilter === 'restaurant' && p.type === 'restaurant') ||
           (activeFilter === 'sportspub' && p.type === 'sportspub') ||
           (activeFilter === 'aktivitet' && p.type === 'aktivitet') ||
-          (activeFilter === 'shopping' && p.type === 'shopping');
+          (activeFilter === 'shopping' && p.type === 'shopping') ||
+          (activeFilter === 'hotell' && p.type === 'hotell');
         const activityMatch = !activeActivity || p.activity === activeActivity;
         return typeMatch && activityMatch && hay.includes(q);
       });
@@ -398,7 +461,13 @@
           <div class="meta">${p.address}</div>
           <div class="meta">${p.note}</div>
           <div class="tags">
-            <span class="tag ${p.type === 'glutenfri' ? 'gf' : p.type === 'restaurant' ? 'gf' : p.type === 'sportspub' ? 'act' : p.type === 'shopping' ? 'shop' : 'vm'}">${p.type}</span>
+            <span class="tag ${
+              p.type === 'glutenfri' ? 'gf' :
+              p.type === 'restaurant' ? 'rest' :
+              p.type === 'sportspub' ? 'vm' :
+              p.type === 'shopping' ? 'shop' :
+              p.type === 'hotell' ? 'hotel' : 'vm'
+            }">${p.type}</span>
             <span class="tag">${p.activity}</span>
           </div>
         </div>
@@ -457,6 +526,21 @@
         <div class="t">${d[4]}</div>
       </div>
     `).join('');
+
+    // Valutakalkulator (enkel, fast kurs)
+    const eurInput = document.getElementById('eurInput');
+    const nokOutput = document.getElementById('nokOutput');
+    function updateCurrency(){
+      const eur = parseFloat(eurInput.value.replace(',', '.'));
+      if (isNaN(eur)) {
+        nokOutput.textContent = "≈ 0 NOK";
+        return;
+      }
+      const rate = 11.5; // eksempel fast kurs
+      const nok = eur * rate;
+      nokOutput.textContent = `≈ ${nok.toFixed(2)} NOK`;
+    }
+    eurInput.addEventListener('input', updateCurrency);
 
     render();
   </script>
