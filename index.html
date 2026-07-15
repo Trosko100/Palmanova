@@ -4,12 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
   <title>Bekkeblomveien i Palmanova</title>
-  <meta name="description" content="Mobiltilpasset reiseapp med interaktivt kart over glutenfri mat, restauranter, sportspuber, aktiviteter, shopping, hotell og apotek i Palmanova." />
+  <meta name="description" content="Mobiltilpasset reiseapp med liste over glutenfri mat, restauranter, sportspuber, aktiviteter, shopping, hotell og apotek i Palmanova." />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>
     :root{
       --bg:#07111f;
@@ -18,10 +17,8 @@
       --line:rgba(255,255,255,.12);
       --text:#f5f8fc;
       --muted:#b7c4d6;
-      --sea:#4fd1ff;
-      --green:#8ef0bd;
-      --yellow:#ffcf5a;
-      --red:#ff8a8a;
+      --accent:#4fd1ff;
+      --accent2:#ffd166;
       --shadow:0 18px 48px rgba(0,0,0,.34);
       --radius:22px;
     }
@@ -155,10 +152,6 @@
       max-width:1200px;
       margin:0 auto;
       padding:12px;
-      display:grid;
-      grid-template-columns:1fr;
-      gap:12px;
-      align-items:start;
     }
     .panel{
       background:var(--panel);
@@ -201,7 +194,7 @@
       padding:11px 12px;
       border-radius:14px;
       border:1px solid rgba(255,255,255,.12);
-      background:rgba(0,0,0,.20);
+      background:rgba(0,0,020);
       color:var(--text);
       outline:none;
       font-size:.95rem;
@@ -211,7 +204,7 @@
       display:flex;
       flex-direction:column;
       gap:8px;
-      max-height:55vh;
+      max-height:70vh;
       overflow:auto;
       padding-right:3px;
     }
@@ -219,14 +212,13 @@
       background:var(--panel2);
       border:1px solid rgba(255,255,255,.09);
       border-radius:16px;
-      padding:11px;
-      cursor:pointer;
+      padding:12px;
       transition:.15s transform, .15s border-color;
     }
     .item:hover{transform:translateY(-1px); border-color:rgba(255,255,255,.18)}
-    .item h3{margin:0 0 5px; font-size:.95rem}
+    .item h3{margin:0 0 5px; font-size:.98rem}
     .meta{color:var(--muted); font-size:.84rem; line-height:1.4}
-    .tags{display:flex; gap:6px; flex-wrap:wrap; margin-top:8px}
+    .tags{display:flex; gap:6px; flex-wrap:wrap; margin-top:8px; align-items:center}
     .tag{
       display:inline-block;
       padding:3px 8px;
@@ -242,34 +234,43 @@
     .tag.shop{background:rgba(79,209,255,.14)}
     .tag.hotel{background:rgba(255,255,255,.10)}
     .tag.apotek{background:rgba(255,255,255,.14)}
-    .map-wrap{padding:10px}
-    #map{
-      width:100%;
-      height:55vh;
-      border-radius:18px;
-      overflow:hidden;
-      border:1px solid rgba(255,255,255,.1);
+    .maps-btn{
+      margin-left:auto;
+      padding:6px 12px;
+      border-radius:999px;
+      background:rgba(79,209,255,.15);
+      border:1px solid rgba(79,209,255,.40);
+      color:var(--text);
+      font-size:.78rem;
+      font-weight:700;
+      text-decoration:none;
+      white-space:nowrap;
+    }
+    .maps-btn:hover{background:rgba(79,209,255,.25)}
+    @media (max-width: 480px){
+      .item{
+        display:flex;
+        flex-wrap:wrap;
+        gap:8px;
+      }
+      .item h3{
+        flex:1 1 100%;
+      }
+      .item .meta{
+        flex:1 1 100%;
+      }
+      .tags{
+        flex: 1 1 auto;
+      }
+      .maps-btn{
+        margin-left: auto;
+      }
     }
     .footer-note{
       margin-top:10px;
       color:var(--muted);
       font-size:.8rem;
       line-height:1.4;
-    }
-    @media (min-width: 900px){
-      .layout{
-        grid-template-columns:380px 1fr;
-      }
-      .sidebar{
-        position:sticky;
-        top:12px;
-      }
-      #map{
-        height:620px;
-      }
-      .list{
-        max-height:620px;
-      }
     }
   </style>
 </head>
@@ -300,7 +301,7 @@
   </header>
 
   <main class="layout">
-    <aside class="panel sidebar">
+    <section class="panel sidebar">
       <h2 class="section-title">Filtrer innhold</h2>
 
       <div class="filters" id="mainFilters">
@@ -319,108 +320,82 @@
       <div class="list" id="list"></div>
 
       <div class="footer-note">
-        Kartet er optimalisert for mobilbruk.
+        Trykk på "Åpne i Google Maps" for å få presise koordinater og veibeskrivelse.
       </div>
-    </aside>
-
-    <section class="panel map-wrap">
-      <div id="map"></div>
     </section>
   </main>
 
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
-    // Koordinater basert på faktiske adresser
+    // Steder med navn og adresse for Google Maps-søk
     const places = [
       // Glutenfri
-      {id:1,type:"glutenfri",name:"St. Lorenzo Tapas",address:"Cala Blanca 1, Son Matias",note:"100% glutenfri profil.",lat:39.5152,lng:2.5325,activity:"mat"},
-      {id:2,type:"glutenfri",name:"L.A. American Diner",address:"Passeig Mar 18",note:"Godt kjent for glutenfrie valg.",lat:39.5155,lng:2.5368,activity:"mat"},
-      {id:3,type:"glutenfri",name:"La Piazzetta",address:"Passeig Mar 10",note:"Glutenfrie alternativer.",lat:39.5153,lng:2.5362,activity:"mat"},
-      {id:4,type:"glutenfri",name:"My Thai",address:"Passeig Mar 12",note:"Glutenfrie valg i menyen.",lat:39.5154,lng:2.5364,activity:"mat"},
-      {id:5,type:"glutenfri",name:"The Blue Bar",address:"Palmanova strandsonen",note:"Glutenfri mat, brød og pasta.",lat:39.5151,lng:2.5328,activity:"mat"},
-      {id:6,type:"glutenfri",name:"Be Max Beach House",address:"Carrer Cala Blanca",note:"Strandnær restaurant med GF-alternativer.",lat:39.5149,lng:2.5326,activity:"mat"},
-      {id:7,type:"glutenfri",name:"McDonald's",address:"Palmanova / nærområdet",note:"Kjeden med standardisert meny.",lat:39.5160,lng:2.5375,activity:"mat"},
+      {id:1,type:"glutenfri",name:"St. Lorenzo Tapas",address:"Cala Blanca 1, Son Matias, Palmanova",note:"100% glutenfri profil.",activity:"mat"},
+      {id:2,type:"glutenfri",name:"L.A. American Diner",address:"Passeig Mar 18, Palmanova",note:"Godt kjent for glutenfrie valg.",activity:"mat"},
+      {id:3,type:"glutenfri",name:"La Piazzetta",address:"Passeig Mar 10, Palmanova",note:"Glutenfrie alternativer.",activity:"mat"},
+      {id:4,type:"glutenfri",name:"My Thai",address:"Passeig Mar 12, Palmanova",note:"Glutenfrie valg i menyen.",activity:"mat"},
+      {id:5,type:"glutenfri",name:"The Blue Bar",address:"Palmanova strandsonen",note:"Glutenfri mat, brød og pasta.",activity:"mat"},
+      {id:6,type:"glutenfri",name:"Be Max Beach House",address:"Carrer Cala Blanca, Palmanova",note:"Strandnær restaurant med GF-alternativer.",activity:"mat"},
+      {id:7,type:"glutenfri",name:"McDonald's",address:"Palmanova",note:"Kjeden med standardisert meny.",activity:"mat"},
 
-      // Restauranter - basert på adresser
-      {id:20,type:"restaurant",name:"Olive Tree",address:"Carrer Cala Blanca 1",note:"Middelhavsinspirert meny.",lat:39.5152,lng:2.5325,activity:"mat"},
-      {id:21,type:"restaurant",name:"Iroko",address:"Carrer Duc Estremera 3",note:"Fusion og grill.",lat:39.5156,lng:2.5365,activity:"mat"},
-      {id:22,type:"restaurant",name:"Max Garden",address:"Carrer de París 2",note:"Moderne restaurant.",lat:39.5154,lng:2.5366,activity:"mat"},
-      {id:23,type:"restaurant",name:"Siso Beach",address:"Palmanova strandsonen",note:"Beach-restaurant med cocktails.",lat:39.5150,lng:2.5324,activity:"mat"},
-      {id:24,type:"restaurant",name:"Origin (roof top)",address:"Palmanova",note:"Roof top med utsikt.",lat:39.5153,lng:2.5360,activity:"mat"},
-      {id:25,type:"restaurant",name:"La vista",address:"Palmanova",note:"Restaurant med utsikt.",lat:39.5148,lng:2.5358,activity:"mat"},
-      {id:26,type:"restaurant",name:"Turtle Beach Palmanova",address:"Palmanova strandsonen",note:"Beach-restaurant og bar.",lat:39.5151,lng:2.5330,activity:"mat"},
-      {id:27,type:"restaurant",name:"Il Chiringo Beach",address:"Calle del Mar 19",note:"Chiringuito på stranden.",lat:39.5153,lng:2.5329,activity:"mat"},
-      {id:28,type:"restaurant",name:"Calvia Beach House",address:"Palmanova strandsonen",note:"Restaurant med utsikt mot havet.",lat:39.5147,lng:2.5335,activity:"mat"},
-      {id:29,type:"restaurant",name:"Paradise Beach",address:"Palmanova strandsonen",note:"Enkel beach bar og mat.",lat:39.5155,lng:2.5331,activity:"mat"},
-      {id:30,type:"restaurant",name:"Bamboo Beach Bar",address:"Palmanova strandsonen",note:"Bar og snacks ved stranden.",lat:39.5152,lng:2.5327,activity:"mat"},
-      {id:31,type:"restaurant",name:"KABO Beach House",address:"Palmanova strandsonen",note:"Beach house med mat og drinker.",lat:39.5150,lng:2.5328,activity:"mat"},
-      {id:32,type:"restaurant",name:"Mar Sea Club",address:"Palmanova strandsonen",note:"Klubb/restaurant ved sjøen.",lat:39.5149,lng:2.5332,activity:"mat"},
+      // Restauranter
+      {id:20,type:"restaurant",name:"Olive Tree",address:"Carrer Cala Blanca 1, Palmanova",note:"Middelhavsinspirert meny.",activity:"mat"},
+      {id:21,type:"restaurant",name:"Iroko",address:"Carrer Duc Estremera 3, Palmanova",note:"Fusion og grill.",activity:"mat"},
+      {id:22,type:"restaurant",name:"Max Garden",address:"Carrer de París 2, Palmanova",note:"Moderne restaurant.",activity:"mat"},
+      {id:23,type:"restaurant",name:"Siso Beach",address:"Palmanova strandsonen",note:"Beach-restaurant med cocktails.",activity:"mat"},
+      {id:24,type:"restaurant",name:"Origin (roof top)",address:"Palmanova",note:"Roof top med utsikt.",activity:"mat"},
+      {id:25,type:"restaurant",name:"La vista",address:"Palmanova",note:"Restaurant med utsikt.",activity:"mat"},
+      {id:26,type:"restaurant",name:"Turtle Beach Palmanova",address:"Palmanova strandsonen",note:"Beach-restaurant og bar.",activity:"mat"},
+      {id:27,type:"restaurant",name:"Il Chiringo Beach",address:"Calle del Mar 19, Palmanova",note:"Chiringuito på stranden.",activity:"mat"},
+      {id:28,type:"restaurant",name:"Calvia Beach House",address:"Palmanova strandsonen",note:"Restaurant med utsikt mot havet.",activity:"mat"},
+      {id:29,type:"restaurant",name:"Paradise Beach",address:"Palmanova strandsonen",note:"Enkel beach bar og mat.",activity:"mat"},
+      {id:30,type:"restaurant",name:"Bamboo Beach Bar",address:"Palmanova strandsonen",note:"Bar og snacks ved stranden.",activity:"mat"},
+      {id:31,type:"restaurant",name:"KABO Beach House",address:"Palmanova strandsonen",note:"Beach house med mat og drinker.",activity:"mat"},
+      {id:32,type:"restaurant",name:"Mar Sea Club",address:"Palmanova strandsonen",note:"Klubb/restaurant ved sjøen.",activity:"mat"},
 
       // Sportspub
-      {id:101,type:"sportspub",name:"PNG Sports Bar",address:"Passeig Mar 32, Local 2",note:"Live sport på flere skjermer.",lat:39.5157,lng:2.5376,activity:"vm"},
-      {id:102,type:"sportspub",name:"O'Neill's Bar",address:"Carrer de París 8",note:"Klassisk pub med sportsendinger.",lat:39.5152,lng:2.5367,activity:"vm"},
-      {id:103,type:"sportspub",name:"JJs Sports Lounge",address:"Sidegate ved Palmanova sentrum",note:"Sportslounge til kampkveld.",lat:39.5148,lng:2.5355,activity:"vm"},
+      {id:101,type:"sportspub",name:"PNG Sports Bar",address:"Passeig Mar 32, Local 2, Palmanova",note:"Live sport på flere skjermer.",activity:"vm"},
+      {id:102,type:"sportspub",name:"O'Neill's Bar",address:"Carrer de París 8, Palmanova",note:"Klassisk pub med sportsendinger.",activity:"vm"},
+      {id:103,type:"sportspub",name:"JJs Sports Lounge",address:"Palmanova sentrum",note:"Sportslounge til kampkveld.",activity:"vm"},
 
       // Aktiviteter
-      {id:203,type:"aktivitet",name:"Vannsport",address:"Stranden",note:"Jet-ski, båtturer, bananbåt, parasailing.",lat:39.5157,lng:2.5328,activity:"vannsport"},
-      {id:204,type:"aktivitet",name:"Trening",address:"Promenade / studio",note:"Løp, styrke og strandtrening.",lat:39.5145,lng:2.5380,activity:"trening"},
-      {id:205,type:"aktivitet",name:"Sykkelutleie",address:"Sentrumsområdet",note:"Leie sykkel for strandpromenade.",lat:39.5150,lng:2.5370,activity:"sykkelutleie"},
+      {id:203,type:"aktivitet",name:"Vannsport",address:"Palmanova stranden",note:"Jet-ski, båtturer, bananbåt, parasailing.",activity:"vannsport"},
+      {id:204,type:"aktivitet",name:"Trening",address:"Palmanova Promenade",note:"Løp, styrke og strandtrening.",activity:"trening"},
+      {id:205,type:"aktivitet",name:"Sykkelutleie",address:"Palmanova sentrum",note:"Leie sykkel for strandpromenade.",activity:"sykkelutleie"},
 
       // Shopping Palmanova
-      {id:301,type:"shopping",name:"Passeig Mar-butikkene",address:"Passeig Mar",note:"Suvenirer, klær, solutstyr.",lat:39.5156,lng:2.5368,activity:"shopping-palmanova"},
-      {id:302,type:"shopping",name:"Lokale matbutikker",address:"Sidegatene Palmanova",note:"Dagligvarer, snacks og drikke.",lat:39.5149,lng:2.5362,activity:"shopping-palmanova"},
-      {id:303,type:"shopping",name:"Luya Accesorios",address:"Palmanova",note:"Accessories, smykker.",lat:39.5151,lng:2.5365,activity:"shopping-palmanova"},
-      {id:304,type:"shopping",name:"Coco Beach",address:"Palmanova strandsonen",note:"Strandklær og souvenirs.",lat:39.5150,lng:2.5332,activity:"shopping-palmanova"},
-      {id:305,type:"shopping",name:"Tabu Mall",address:"Palmanova",note:"Mindre senter med butikker.",lat:39.5154,lng:2.5372,activity:"shopping-palmanova"},
-      {id:306,type:"shopping",name:"Ibizaabi",address:"Palmanova",note:"Mote og lifestyle.",lat:39.5152,lng:2.5363,activity:"shopping-palmanova"},
+      {id:301,type:"shopping",name:"Passeig Mar-butikkene",address:"Passeig Mar, Palmanova",note:"Suvenirer, klær, solutstyr.",activity:"shopping-palmanova"},
+      {id:302,type:"shopping",name:"Lokale matbutikker",address:"Palmanova sidegatene",note:"Dagligvarer, snacks og drikke.",activity:"shopping-palmanova"},
+      {id:303,type:"shopping",name:"Luya Accesorios",address:"Palmanova",note:"Accessories, smykker.",activity:"shopping-palmanova"},
+      {id:304,type:"shopping",name:"Coco Beach",address:"Palmanova strandsonen",note:"Strandklær og souvenirs.",activity:"shopping-palmanova"},
+      {id:305,type:"shopping",name:"Tabu Mall",address:"Palmanova",note:"Mindre senter med butikker.",activity:"shopping-palmanova"},
+      {id:306,type:"shopping",name:"Ibizaabi",address:"Palmanova",note:"Mote og lifestyle.",activity:"shopping-palmanova"},
 
       // Shopping Palma
-      {id:401,type:"shopping",name:"El Corte Inglés",address:"Plaça España, Palma",note:"Stort shoppingsenter.",lat:39.5695,lng:2.6502,activity:"shopping-palma"},
-      {id:402,type:"shopping",name:"Avinguda del Rei Jaume III",address:"Palma sentrum",note:"Merketøy og mote.",lat:39.5746,lng:2.6508,activity:"shopping-palma"},
-      {id:403,type:"shopping",name:"Mercat de l'Olivar",address:"Palma sentrum",note:"Markedshall med mat.",lat:39.5712,lng:2.6515,activity:"shopping-palma"},
+      {id:401,type:"shopping",name:"El Corte Inglés",address:"Plaça España, Palma",note:"Stort shoppingsenter.",activity:"shopping-palma"},
+      {id:402,type:"shopping",name:"Avinguda del Rei Jaume III",address:"Palma sentrum",note:"Merketøy og mote.",activity:"shopping-palma"},
+      {id:403,type:"shopping",name:"Mercat de l'Olivar",address:"Palma sentrum",note:"Markedshall med mat.",activity:"shopping-palma"},
 
       // Hotell
-      {id:501,type:"hotell",name:"Suites ROC Portonova",address:"Passeig Mar 2",note:"Leilighetshotell ved sjøen.",lat:39.5148,lng:2.5340,activity:"hotell"},
+      {id:501,type:"hotell",name:"Suites ROC Portonova",address:"Passeig Mar 2, Palmanova",note:"Leilighetshotell ved sjøen.",activity:"hotell"},
 
       // Apotek
-      {id:601,type:"apotek",name:"Farmacia Antonio Miquel Ferrer",address:"Carrer Voranova, Son Caliu",note:"Apotek nær Palmanova.",lat:39.5165,lng:2.5390,activity:"apotek"},
-      {id:602,type:"apotek",name:"Farmàcia Chemist Apotheke",address:"Passeig Mar 40",note:"Apotek ved strandpromenaden.",lat:39.5158,lng:2.5375,activity:"apotek"},
-      {id:603,type:"apotek",name:"Lorenzo Perelló Rosselló",address:"Calle Mare Nostrum 3",note:"Apotek i Palmanova.",lat:39.5150,lng:2.5362,activity:"apotek"}
+      {id:601,type:"apotek",name:"Farmacia Antonio Miquel Ferrer",address:"Carrer Voranova, Son Caliu, Palmanova",note:"Apotek nær Palmanova.",activity:"apotek"},
+      {id:602,type:"apotek",name:"Farmàcia Chemist Apotheke",address:"Passeig Mar 40, Palmanova",note:"Apotek ved strandpromenaden.",activity:"apotek"},
+      {id:603,type:"apotek",name:"Lorenzo Perelló Rosselló",address:"Calle Mare Nostrum 3, Palmanova",note:"Apotek i Palmanova.",activity:"apotek"}
     ];
 
     const foodOrder = ["St. Lorenzo Tapas","L.A. American Diner","La Piazzetta","My Thai","The Blue Bar","Be Max Beach House","McDonald's"];
-
-    const map = L.map('map').setView([39.5152, 2.5355], 16);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '&copy; OpenStreetMap'
-    }).addTo(map);
-
-    const iconByType = {
-      glutenfri: L.divIcon({className:'', html:'<div style="width:16px;height:16px;border-radius:50%;background:#8ef0bd;border:3px solid #fff;box-shadow:0 0 0 4px rgba(142,240,189,.18)"></div>', iconSize:[16,16], iconAnchor:[8,8]}),
-      restaurant: L.divIcon({className:'', html:'<div style="width:16px;height:16px;border-radius:50%;background:#ffd166;border:3px solid #fff;box-shadow:0 0 0 4px rgba(255,209,102,.18)"></div>', iconSize:[16,16], iconAnchor:[8,8]}),
-      sportspub: L.divIcon({className:'', html:'<div style="width:16px;height:16px;border-radius:50%;background:#ff8a8a;border:3px solid #fff;box-shadow:0 0 0 4px rgba(255,138,138,.18)"></div>', iconSize:[16,16], iconAnchor:[8,8]}),
-      aktivitet: L.divIcon({className:'', html:'<div style="width:16px;height:16px;border-radius:50%;background:#ff8a8a;border:3px solid #fff;box-shadow:0 0 0 4px rgba(255,138,138,.18)"></div>', iconSize:[16,16], iconAnchor:[8,8]}),
-      shopping: L.divIcon({className:'', html:'<div style="width:16px;height:16px;border-radius:50%;background:#4fd1ff;border:3px solid #fff;box-shadow:0 0 0 4px rgba(79,209,255,.18)"></div>', iconSize:[16,16], iconAnchor:[8,8]}),
-      hotell: L.divIcon({className:'', html:'<div style="width:16px;height:16px;border-radius:50%;background:#ffffff;border:3px solid #fff;box-shadow:0 0 0 4px rgba(255,255,255,.18)"></div>', iconSize:[16,16], iconAnchor:[8,8]}),
-      apotek: L.divIcon({className:'', html:'<div style="width:16px;height:16px;border-radius:50%;background:#b7c4d6;border:3px solid #fff;box-shadow:0 0 0 4px rgba(183,196,214,.18)"></div>', iconSize:[16,16], iconAnchor:[8,8]})
-    };
-
-    const markers = [];
-    function addMarkers(items){
-      markers.forEach(m => map.removeLayer(m));
-      markers.length = 0;
-      items.forEach(p => {
-        const m = L.marker([p.lat, p.lng], {icon: iconByType[p.type]}).addTo(map);
-        m.bindPopup(`<strong>${p.name}</strong><br>${p.address}<br>${p.note}`);
-        markers.push(m);
-      });
-    }
 
     const listEl = document.getElementById('list');
     const searchEl = document.getElementById('search');
     const mainFilterButtons = [...document.querySelectorAll('#mainFilters .chip')];
     let activeFilter = 'all';
+
+    // Lag Google Maps søkelenke
+    function googleMapsUrl(name, address){
+      const query = encodeURIComponent(`${name} ${address}`);
+      return `https://www.google.com/maps/search/${query}`;
+    }
 
     function sortPlaces(arr){
       return [...arr].sort((a,b) => {
@@ -455,8 +430,10 @@
 
       filtered = sortPlaces(filtered);
 
-      listEl.innerHTML = filtered.map(p => `
-        <div class="item" data-id="${p.id}">
+      listEl.innerHTML = filtered.map(p => {
+        const mapsUrl = googleMapsUrl(p.name, p.address);
+        return `
+        <div class="item">
           <h3>${p.name}</h3>
           <div class="meta">${p.address}</div>
           <div class="meta">${p.note}</div>
@@ -470,24 +447,10 @@
               p.type === 'apotek' ? 'apotek' : 'vm'
             }">${p.type}</span>
             <span class="tag">${p.activity}</span>
+            <a class="maps-btn" href="${mapsUrl}" target="_blank" rel="noopener">Åpne i Google Maps ↗</a>
           </div>
         </div>
-      `).join('');
-
-      addMarkers(filtered);
-
-      document.querySelectorAll('.item').forEach(el => {
-        el.addEventListener('click', () => {
-          const p = places.find(x => x.id === Number(el.dataset.id));
-          if (!p) return;
-          map.setView([p.lat, p.lng], 17, {animate:true});
-          const marker = markers.find(m => {
-            const ll = m.getLatLng();
-            return Math.abs(ll.lat - p.lat) < 0.0001 && Math.abs(ll.lng - p.lng) < 0.0001;
-          });
-          if (marker) marker.openPopup();
-        });
-      });
+      `}).join('');
     }
 
     mainFilterButtons.forEach(btn => {
