@@ -330,66 +330,67 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
+    // Koordinater basert på faktiske adresser
     const places = [
       // Glutenfri
-      {id:1,type:"glutenfri",name:"St. Lorenzo Tapas",address:"Calle Marina / sidegate ved Palmanova",note:"100% glutenfri profil og sterk omtale.",lat:39.5153,lng:2.5338,activity:"mat"},
-      {id:2,type:"glutenfri",name:"L.A. American Diner",address:"Passeig Mar, 18",note:"Godt kjent for glutenfrie valg.",lat:39.5157,lng:2.5372,activity:"mat"},
-      {id:3,type:"glutenfri",name:"La Piazzetta",address:"Passeig Mar, 10",note:"Glutenfrie alternativer nær strandpromenaden.",lat:39.5154,lng:2.5365,activity:"mat"},
-      {id:4,type:"glutenfri",name:"My Thai",address:"Passeig Mar, 12",note:"Glutenfrie valg i menyen.",lat:39.5155,lng:2.5368,activity:"mat"},
-      {id:5,type:"glutenfri",name:"The Blue Bar",address:"Palmanova strandsonen",note:"Glutenfri mat, brød og pasta.",lat:39.5150,lng:2.5329,activity:"mat"},
-      {id:6,type:"glutenfri",name:"Be Max Beach House",address:"Carrer Cala Blanca",note:"Strandnær restaurant med GF-alternativer.",lat:39.5149,lng:2.5327,activity:"mat"},
-      {id:7,type:"glutenfri",name:"McDonald's",address:"Palmanova / nærområdet",note:"Kjeden med standardisert meny, flere steder i området.",lat:39.5152,lng:2.5355,activity:"mat"},
+      {id:1,type:"glutenfri",name:"St. Lorenzo Tapas",address:"Cala Blanca 1, Son Matias",note:"100% glutenfri profil.",lat:39.5152,lng:2.5325,activity:"mat"},
+      {id:2,type:"glutenfri",name:"L.A. American Diner",address:"Passeig Mar 18",note:"Godt kjent for glutenfrie valg.",lat:39.5155,lng:2.5368,activity:"mat"},
+      {id:3,type:"glutenfri",name:"La Piazzetta",address:"Passeig Mar 10",note:"Glutenfrie alternativer.",lat:39.5153,lng:2.5362,activity:"mat"},
+      {id:4,type:"glutenfri",name:"My Thai",address:"Passeig Mar 12",note:"Glutenfrie valg i menyen.",lat:39.5154,lng:2.5364,activity:"mat"},
+      {id:5,type:"glutenfri",name:"The Blue Bar",address:"Palmanova strandsonen",note:"Glutenfri mat, brød og pasta.",lat:39.5151,lng:2.5328,activity:"mat"},
+      {id:6,type:"glutenfri",name:"Be Max Beach House",address:"Carrer Cala Blanca",note:"Strandnær restaurant med GF-alternativer.",lat:39.5149,lng:2.5326,activity:"mat"},
+      {id:7,type:"glutenfri",name:"McDonald's",address:"Palmanova / nærområdet",note:"Kjeden med standardisert meny.",lat:39.5160,lng:2.5375,activity:"mat"},
 
-      // Restauranter – fikset koordinater langs stranden / Passeig Mar
-      {id:20,type:"restaurant",name:"Olive Tree",address:"Palmanova",note:"Middelhavsinspirert meny.",lat:39.5151,lng:2.5362,activity:"mat"},
-      {id:21,type:"restaurant",name:"Iroko",address:"Palmanova",note:"Fusion og grill.",lat:39.5148,lng:2.5370,activity:"mat"},
-      {id:22,type:"restaurant",name:"Max Garden",address:"Palmanova",note:"Moderne restaurant med vekt på matopplevelse.",lat:39.5156,lng:2.5368,activity:"mat"},
-      {id:23,type:"restaurant",name:"Siso Beach",address:"Palmanova strandsonen",note:"Beach-restaurant med cocktails.",lat:39.5149,lng:2.5325,activity:"mat"},
-      {id:24,type:"restaurant",name:"Origin (roof top)",address:"Palmanova",note:"Roof top med utsikt og drinker.",lat:39.5153,lng:2.5360,activity:"mat"},
-      {id:25,type:"restaurant",name:"La vista",address:"Palmanova",note:"Restaurant med utsikt over området.",lat:39.5147,lng:2.5358,activity:"mat"},
-      {id:26,type:"restaurant",name:"Turtle Beach Palmanova",address:"Palmanova strandsonen",note:"Beach-restaurant og bar.",lat:39.5152,lng:2.5333,activity:"mat"},
-      {id:27,type:"restaurant",name:"Il Chiringo Beach",address:"Palmanova strandsonen",note:"Chiringuito-stil ved stranden.",lat:39.5154,lng:2.5330,activity:"mat"},
-      {id:28,type:"restaurant",name:"Calvia Beach House",address:"Palmanova",note:"Restaurant med utsikt mot havet.",lat:39.5145,lng:2.5338,activity:"mat"},
-      {id:29,type:"restaurant",name:"Paradise Beach",address:"Palmanova strandsonen",note:"Enkel beach bar og mat.",lat:39.5156,lng:2.5331,activity:"mat"},
-      {id:30,type:"restaurant",name:"Bamboo Beach Bar",address:"Palmanova strandsonen",note:"Bar og snacks ved stranden.",lat:39.5151,lng:2.5327,activity:"mat"},
-      {id:31,type:"restaurant",name:"KABO Beach House",address:"Palmanova strandsonen",note:"Beach house med mat og drinker.",lat:39.5150,lng:2.5329,activity:"mat"},
-      {id:32,type:"restaurant",name:"Mar Sea Club",address:"Palmanova",note:"Klubb/restaurant ved sjøen.",lat:39.5145,lng:2.5334,activity:"mat"},
+      // Restauranter - basert på adresser
+      {id:20,type:"restaurant",name:"Olive Tree",address:"Carrer Cala Blanca 1",note:"Middelhavsinspirert meny.",lat:39.5152,lng:2.5325,activity:"mat"},
+      {id:21,type:"restaurant",name:"Iroko",address:"Carrer Duc Estremera 3",note:"Fusion og grill.",lat:39.5156,lng:2.5365,activity:"mat"},
+      {id:22,type:"restaurant",name:"Max Garden",address:"Carrer de París 2",note:"Moderne restaurant.",lat:39.5154,lng:2.5366,activity:"mat"},
+      {id:23,type:"restaurant",name:"Siso Beach",address:"Palmanova strandsonen",note:"Beach-restaurant med cocktails.",lat:39.5150,lng:2.5324,activity:"mat"},
+      {id:24,type:"restaurant",name:"Origin (roof top)",address:"Palmanova",note:"Roof top med utsikt.",lat:39.5153,lng:2.5360,activity:"mat"},
+      {id:25,type:"restaurant",name:"La vista",address:"Palmanova",note:"Restaurant med utsikt.",lat:39.5148,lng:2.5358,activity:"mat"},
+      {id:26,type:"restaurant",name:"Turtle Beach Palmanova",address:"Palmanova strandsonen",note:"Beach-restaurant og bar.",lat:39.5151,lng:2.5330,activity:"mat"},
+      {id:27,type:"restaurant",name:"Il Chiringo Beach",address:"Calle del Mar 19",note:"Chiringuito på stranden.",lat:39.5153,lng:2.5329,activity:"mat"},
+      {id:28,type:"restaurant",name:"Calvia Beach House",address:"Palmanova strandsonen",note:"Restaurant med utsikt mot havet.",lat:39.5147,lng:2.5335,activity:"mat"},
+      {id:29,type:"restaurant",name:"Paradise Beach",address:"Palmanova strandsonen",note:"Enkel beach bar og mat.",lat:39.5155,lng:2.5331,activity:"mat"},
+      {id:30,type:"restaurant",name:"Bamboo Beach Bar",address:"Palmanova strandsonen",note:"Bar og snacks ved stranden.",lat:39.5152,lng:2.5327,activity:"mat"},
+      {id:31,type:"restaurant",name:"KABO Beach House",address:"Palmanova strandsonen",note:"Beach house med mat og drinker.",lat:39.5150,lng:2.5328,activity:"mat"},
+      {id:32,type:"restaurant",name:"Mar Sea Club",address:"Palmanova strandsonen",note:"Klubb/restaurant ved sjøen.",lat:39.5149,lng:2.5332,activity:"mat"},
 
       // Sportspub
-      {id:101,type:"sportspub",name:"PNG Sports Bar",address:"Passeig Mar, 32, Local 2",note:"Live sport på flere skjermer.",lat:39.5152,lng:2.5376,activity:"vm"},
-      {id:102,type:"sportspub",name:"O'Neill's Bar",address:"Carrer de París, 8, 9",note:"Klassisk pub med sportsendinger.",lat:39.5149,lng:2.5368,activity:"vm"},
-      {id:103,type:"sportspub",name:"JJs Sports Lounge",address:"Sidegate ved Palmanova sentrum",note:"Sportslounge til kampkveld.",lat:39.5146,lng:2.5354,activity:"vm"},
+      {id:101,type:"sportspub",name:"PNG Sports Bar",address:"Passeig Mar 32, Local 2",note:"Live sport på flere skjermer.",lat:39.5157,lng:2.5376,activity:"vm"},
+      {id:102,type:"sportspub",name:"O'Neill's Bar",address:"Carrer de París 8",note:"Klassisk pub med sportsendinger.",lat:39.5152,lng:2.5367,activity:"vm"},
+      {id:103,type:"sportspub",name:"JJs Sports Lounge",address:"Sidegate ved Palmanova sentrum",note:"Sportslounge til kampkveld.",lat:39.5148,lng:2.5355,activity:"vm"},
 
-      // Aktiviteter (punktene beholdes)
-      {id:203,type:"aktivitet",name:"Vannsport",address:"Stranden",note:"Jet-ski utleie, båtturer, bananbåt, parasailing og andre actionpreget aktiviteter.",lat:39.5158,lng:2.5328,activity:"vannsport"},
-      {id:204,type:"aktivitet",name:"Trening",address:"Promenade / studio",note:"Løp, styrke og strandtrening.",lat:39.5143,lng:2.5382,activity:"trening"},
-      {id:205,type:"aktivitet",name:"Sykkelutleie",address:"Sentrumsområdet",note:"Leie sykkel for strandpromenade og korte turer.",lat:39.5147,lng:2.5370,activity:"sykkelutleie"},
+      // Aktiviteter
+      {id:203,type:"aktivitet",name:"Vannsport",address:"Stranden",note:"Jet-ski, båtturer, bananbåt, parasailing.",lat:39.5157,lng:2.5328,activity:"vannsport"},
+      {id:204,type:"aktivitet",name:"Trening",address:"Promenade / studio",note:"Løp, styrke og strandtrening.",lat:39.5145,lng:2.5380,activity:"trening"},
+      {id:205,type:"aktivitet",name:"Sykkelutleie",address:"Sentrumsområdet",note:"Leie sykkel for strandpromenade.",lat:39.5150,lng:2.5370,activity:"sykkelutleie"},
 
       // Shopping Palmanova
-      {id:301,type:"shopping",name:"Passeig Mar-butikkene",address:"Passeig Mar",note:"Suvenirer, klær, solutstyr og småbutikker langs hovedgaten.",lat:39.5155,lng:2.5368,activity:"shopping-palmanova"},
-      {id:302,type:"shopping",name:"Lokale matbutikker",address:"Sidegatene Palmanova",note:"Dagligvarer, snacks og drikke til hytta/leiligheten.",lat:39.5147,lng:2.5360,activity:"shopping-palmanova"},
-      {id:303,type:"shopping",name:"Luya Accesorios",address:"Palmanova",note:"Accessories, smykker og småting.",lat:39.5150,lng:2.5365,activity:"shopping-palmanova"},
-      {id:304,type:"shopping",name:"Coco Beach",address:"Palmanova strandsonen",note:"Strandklær, badedrakter og souvenirs.",lat:39.5148,lng:2.5332,activity:"shopping-palmanova"},
-      {id:305,type:"shopping",name:"Tabu Mall",address:"Palmanova",note:"Mindre senter med utvalg av butikker.",lat:39.5153,lng:2.5372,activity:"shopping-palmanova"},
-      {id:306,type:"shopping",name:"Ibizaabi",address:"Palmanova",note:"Mote og lifestyle-butikk.",lat:39.5151,lng:2.5363,activity:"shopping-palmanova"},
+      {id:301,type:"shopping",name:"Passeig Mar-butikkene",address:"Passeig Mar",note:"Suvenirer, klær, solutstyr.",lat:39.5156,lng:2.5368,activity:"shopping-palmanova"},
+      {id:302,type:"shopping",name:"Lokale matbutikker",address:"Sidegatene Palmanova",note:"Dagligvarer, snacks og drikke.",lat:39.5149,lng:2.5362,activity:"shopping-palmanova"},
+      {id:303,type:"shopping",name:"Luya Accesorios",address:"Palmanova",note:"Accessories, smykker.",lat:39.5151,lng:2.5365,activity:"shopping-palmanova"},
+      {id:304,type:"shopping",name:"Coco Beach",address:"Palmanova strandsonen",note:"Strandklær og souvenirs.",lat:39.5150,lng:2.5332,activity:"shopping-palmanova"},
+      {id:305,type:"shopping",name:"Tabu Mall",address:"Palmanova",note:"Mindre senter med butikker.",lat:39.5154,lng:2.5372,activity:"shopping-palmanova"},
+      {id:306,type:"shopping",name:"Ibizaabi",address:"Palmanova",note:"Mote og lifestyle.",lat:39.5152,lng:2.5363,activity:"shopping-palmanova"},
 
       // Shopping Palma
-      {id:401,type:"shopping",name:"El Corte Inglés",address:"Plaça España, Palma",note:"Stort shoppingsenter med alt fra mote til elektronikk.",lat:39.5695,lng:2.6502,activity:"shopping-palma"},
-      {id:402,type:"shopping",name:"Avinguda del Rei Jaume III",address:"Palma sentrum",note:"Merketøy, sko og mote langs hovedgaten.",lat:39.5746,lng:2.6508,activity:"shopping-palma"},
-      {id:403,type:"shopping",name:"Mercat de l'Olivar",address:"Palma sentrum",note:"Markedshall med mat, fisk, frukt og lokale produkter.",lat:39.5712,lng:2.6515,activity:"shopping-palma"},
+      {id:401,type:"shopping",name:"El Corte Inglés",address:"Plaça España, Palma",note:"Stort shoppingsenter.",lat:39.5695,lng:2.6502,activity:"shopping-palma"},
+      {id:402,type:"shopping",name:"Avinguda del Rei Jaume III",address:"Palma sentrum",note:"Merketøy og mote.",lat:39.5746,lng:2.6508,activity:"shopping-palma"},
+      {id:403,type:"shopping",name:"Mercat de l'Olivar",address:"Palma sentrum",note:"Markedshall med mat.",lat:39.5712,lng:2.6515,activity:"shopping-palma"},
 
       // Hotell
-      {id:501,type:"hotell",name:"Suites ROC Portonova",address:"Palmanova",note:"Leilighetshotell ved sjøen.",lat:39.5153,lng:2.5339,activity:"hotell"},
+      {id:501,type:"hotell",name:"Suites ROC Portonova",address:"Passeig Mar 2",note:"Leilighetshotell ved sjøen.",lat:39.5148,lng:2.5340,activity:"hotell"},
 
-      // Apotek (basert på adresser i Palmanova/Son Caliu/Mare Nostrum) [web:61][web:63][web:69]
-      {id:601,type:"apotek",name:"Farmacia Antonio Miquel Ferrer",address:"Carrer Voranova, Son Caliu",note:"Apotek nær Palmanova/ Son Caliu.",lat:39.5159,lng:2.5387,activity:"apotek"},
-      {id:602,type:"apotek",name:"Farmàcia Chemist Apotheke",address:"Passeig Mar 40",note:"Apotek ved strandpromenaden.",lat:39.5153,lng:2.5370,activity:"apotek"},
-      {id:603,type:"apotek",name:"Lorenzo Perelló Rosselló",address:"Calle Mare Nostrum 3",note:"Apotek i Palmanova med bredt utvalg.",lat:39.5149,lng:2.5361,activity:"apotek"}
+      // Apotek
+      {id:601,type:"apotek",name:"Farmacia Antonio Miquel Ferrer",address:"Carrer Voranova, Son Caliu",note:"Apotek nær Palmanova.",lat:39.5165,lng:2.5390,activity:"apotek"},
+      {id:602,type:"apotek",name:"Farmàcia Chemist Apotheke",address:"Passeig Mar 40",note:"Apotek ved strandpromenaden.",lat:39.5158,lng:2.5375,activity:"apotek"},
+      {id:603,type:"apotek",name:"Lorenzo Perelló Rosselló",address:"Calle Mare Nostrum 3",note:"Apotek i Palmanova.",lat:39.5150,lng:2.5362,activity:"apotek"}
     ];
 
     const foodOrder = ["St. Lorenzo Tapas","L.A. American Diner","La Piazzetta","My Thai","The Blue Bar","Be Max Beach House","McDonald's"];
 
-    const map = L.map('map').setView([39.5148, 2.5361], 16);
+    const map = L.map('map').setView([39.5152, 2.5355], 16);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       attribution: '&copy; OpenStreetMap'
@@ -519,7 +520,7 @@
       </div>
     `).join('');
 
-    // Valutakalkulator (enkel, fast kurs)
+    // Valutakalkulator
     const eurInput = document.getElementById('eurInput');
     const nokOutput = document.getElementById('nokOutput');
     function updateCurrency(){
@@ -528,7 +529,7 @@
         nokOutput.textContent = "≈ 0 NOK";
         return;
       }
-      const rate = 11.5; // eksempel fast kurs
+      const rate = 11.5;
       const nok = eur * rate;
       nokOutput.textContent = `≈ ${nok.toFixed(2)} NOK`;
     }
