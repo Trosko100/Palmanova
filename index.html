@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
   <title>Bekkeblomveien i Palmanova</title>
-  <meta name="description" content="Mobiltilpasset reiseapp med interaktivt kart over glutenfri mat, restauranter, sportspuber, aktiviteter, shopping og hotell langs Passeig Mar i Palmanova." />
+  <meta name="description" content="Mobiltilpasset reiseapp med interaktivt kart over glutenfri mat, restauranter, sportspuber, aktiviteter, shopping, hotell og apotek i Palmanova." />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -241,6 +241,7 @@
     .tag.vm{background:rgba(255,138,138,.14)}
     .tag.shop{background:rgba(79,209,255,.14)}
     .tag.hotel{background:rgba(255,255,255,.10)}
+    .tag.apotek{background:rgba(255,255,255,.14)}
     .map-wrap{padding:10px}
     #map{
       width:100%;
@@ -262,9 +263,6 @@
       .sidebar{
         position:sticky;
         top:12px;
-      }
-      .hero-inner{
-        max-width:1200px;
       }
       #map{
         height:620px;
@@ -290,7 +288,7 @@
           <div class="currency-output" id="nokOutput">≈ 0 NOK</div>
         </div>
         <div class="emergency">
-          <strong>Nødnummer:</strong> Brann 080 – Lege 061 – Politi 112
+          <strong>Nød (+34):</strong> Brann 080 – Lege 061 – Politi 112
         </div>
       </div>
 
@@ -305,17 +303,18 @@
     <aside class="panel sidebar">
       <h2 class="section-title">Filtrer innhold</h2>
 
-      <div class="filters">
-        <button class="chip active" data-filter="all">Alle steder</button>
+      <div class="filters" id="mainFilters">
+        <button class="chip active" data-filter="all">Alle</button>
         <button class="chip" data-filter="glutenfri">Glutenfri</button>
         <button class="chip" data-filter="restaurant">Restauranter</button>
         <button class="chip" data-filter="sportspub">Sportspuber</button>
         <button class="chip" data-filter="aktivitet">Aktiviteter</button>
         <button class="chip" data-filter="shopping">Shopping</button>
         <button class="chip" data-filter="hotell">Hotell</button>
+        <button class="chip" data-filter="apotek">Apotek</button>
       </div>
 
-      <div class="filters">
+      <div class="filters" id="activityFilters">
         <button class="chip" data-activity="shopping-palmanova">Shopping Palmanova</button>
         <button class="chip" data-activity="shopping-palma">Shopping Palma</button>
       </div>
@@ -346,7 +345,7 @@
       {id:6,type:"glutenfri",name:"Be Max Beach House",address:"Carrer Cala Blanca",note:"Strandnær restaurant med GF-alternativer.",lat:39.5149,lng:2.5327,activity:"mat"},
       {id:7,type:"glutenfri",name:"McDonald's",address:"Palmanova / nærområdet",note:"Kjeden med standardisert meny, flere steder i området.",lat:39.5152,lng:2.5355,activity:"mat"},
 
-      // Restauranter (ikke glutenfrie)
+      // Restauranter
       {id:20,type:"restaurant",name:"Olive Tree",address:"Palmanova",note:"Middelhavsinspirert meny.",lat:39.5151,lng:2.5362,activity:"mat"},
       {id:21,type:"restaurant",name:"Iroko",address:"Palmanova",note:"Fusion og grill.",lat:39.5148,lng:2.5370,activity:"mat"},
       {id:22,type:"restaurant",name:"Max Garden",address:"Palmanova",note:"Moderne restaurant med vekt på matopplevelse.",lat:39.5156,lng:2.5368,activity:"mat"},
@@ -380,12 +379,17 @@
       {id:306,type:"shopping",name:"Ibizaabi",address:"Palmanova",note:"Mote og lifestyle-butikk.",lat:39.5151,lng:2.5363,activity:"shopping-palmanova"},
 
       // Shopping Palma
-      {id:401,type:"shopping",name:"El Corte Inglés",address:"PlaçaEspaña, Palma",note:"Stort shoppingsenter med alt fra mote til elektronikk.",lat:39.5695,lng:2.6502,activity:"shopping-palma"},
+      {id:401,type:"shopping",name:"El Corte Inglés",address:"Plaça España, Palma",note:"Stort shoppingsenter med alt fra mote til elektronikk.",lat:39.5695,lng:2.6502,activity:"shopping-palma"},
       {id:402,type:"shopping",name:"Avinguda del Rei Jaume III",address:"Palma sentrum",note:"Merketøy, sko og mote langs hovedgaten.",lat:39.5746,lng:2.6508,activity:"shopping-palma"},
       {id:403,type:"shopping",name:"Mercat de l'Olivar",address:"Palma sentrum",note:"Markedshall med mat, fisk, frukt og lokale produkter.",lat:39.5712,lng:2.6515,activity:"shopping-palma"},
 
       // Hotell
-      {id:501,type:"hotell",name:"Suites ROC Portonova",address:"Palmanova",note:"Leilighetshotell ved sjøen.",lat:39.5153,lng:2.5339,activity:"hotell"}
+      {id:501,type:"hotell",name:"Suites ROC Portonova",address:"Palmanova",note:"Leilighetshotell ved sjøen.",lat:39.5153,lng:2.5339,activity:"hotell"},
+
+      // Apotek (basert på adresser i Palmanova/Son Caliu/Mare Nostrum) [web:61][web:63][web:69]
+      {id:601,type:"apotek",name:"Farmacia Antonio Miquel Ferrer",address:"Carrer Voranova, Son Caliu",note:"Apotek nær Palmanova/ Son Caliu.",lat:39.5159,lng:2.5387,activity:"apotek"},
+      {id:602,type:"apotek",name:"Farmàcia Chemist Apotheke",address:"Passeig Mar 40",note:"Apotek ved strandpromenaden.",lat:39.5153,lng:2.5370,activity:"apotek"},
+      {id:603,type:"apotek",name:"Lorenzo Perelló Rosselló",address:"Calle Mare Nostrum 3",note:"Apotek i Palmanova med bredt utvalg.",lat:39.5149,lng:2.5361,activity:"apotek"}
     ];
 
     const foodOrder = ["St. Lorenzo Tapas","L.A. American Diner","La Piazzetta","My Thai","The Blue Bar","Be Max Beach House","McDonald's"];
@@ -402,7 +406,8 @@
       sportspub: L.divIcon({className:'', html:'<div style="width:16px;height:16px;border-radius:50%;background:#ff8a8a;border:3px solid #fff;box-shadow:0 0 0 4px rgba(255,138,138,.18)"></div>', iconSize:[16,16], iconAnchor:[8,8]}),
       aktivitet: L.divIcon({className:'', html:'<div style="width:16px;height:16px;border-radius:50%;background:#ff8a8a;border:3px solid #fff;box-shadow:0 0 0 4px rgba(255,138,138,.18)"></div>', iconSize:[16,16], iconAnchor:[8,8]}),
       shopping: L.divIcon({className:'', html:'<div style="width:16px;height:16px;border-radius:50%;background:#4fd1ff;border:3px solid #fff;box-shadow:0 0 0 4px rgba(79,209,255,.18)"></div>', iconSize:[16,16], iconAnchor:[8,8]}),
-      hotell: L.divIcon({className:'', html:'<div style="width:16px;height:16px;border-radius:50%;background:#ffffff;border:3px solid #fff;box-shadow:0 0 0 4px rgba(255,255,255,.18)"></div>', iconSize:[16,16], iconAnchor:[8,8]})
+      hotell: L.divIcon({className:'', html:'<div style="width:16px;height:16px;border-radius:50%;background:#ffffff;border:3px solid #fff;box-shadow:0 0 0 4px rgba(255,255,255,.18)"></div>', iconSize:[16,16], iconAnchor:[8,8]}),
+      apotek: L.divIcon({className:'', html:'<div style="width:16px;height:16px;border-radius:50%;background:#b7c4d6;border:3px solid #fff;box-shadow:0 0 0 4px rgba(183,196,214,.18)"></div>', iconSize:[16,16], iconAnchor:[8,8]})
     };
 
     const markers = [];
@@ -418,7 +423,8 @@
 
     const listEl = document.getElementById('list');
     const searchEl = document.getElementById('search');
-    const chips = [...document.querySelectorAll('.chip')];
+    const mainFilterButtons = [...document.querySelectorAll('#mainFilters .chip')];
+    const activityFilterButtons = [...document.querySelectorAll('#activityFilters .chip')];
     let activeFilter = 'all';
     let activeActivity = '';
 
@@ -448,7 +454,8 @@
           (activeFilter === 'sportspub' && p.type === 'sportspub') ||
           (activeFilter === 'aktivitet' && p.type === 'aktivitet') ||
           (activeFilter === 'shopping' && p.type === 'shopping') ||
-          (activeFilter === 'hotell' && p.type === 'hotell');
+          (activeFilter === 'hotell' && p.type === 'hotell') ||
+          (activeFilter === 'apotek' && p.type === 'apotek');
         const activityMatch = !activeActivity || p.activity === activeActivity;
         return typeMatch && activityMatch && hay.includes(q);
       });
@@ -466,7 +473,8 @@
               p.type === 'restaurant' ? 'rest' :
               p.type === 'sportspub' ? 'vm' :
               p.type === 'shopping' ? 'shop' :
-              p.type === 'hotell' ? 'hotel' : 'vm'
+              p.type === 'hotell' ? 'hotel' :
+              p.type === 'apotek' ? 'apotek' : 'vm'
             }">${p.type}</span>
             <span class="tag">${p.activity}</span>
           </div>
@@ -489,19 +497,23 @@
       });
     }
 
-    chips.forEach(btn => {
+    // Hovedfilter: kun én aktiv om gangen
+    mainFilterButtons.forEach(btn => {
       btn.addEventListener('click', () => {
-        if (btn.dataset.filter) {
-          chips.filter(x => x.dataset.filter).forEach(x => x.classList.remove('active'));
-          btn.classList.add('active');
-          activeFilter = btn.dataset.filter;
-        }
-        if (btn.dataset.activity) {
-          const same = activeActivity === btn.dataset.activity;
-          activeActivity = same ? '' : btn.dataset.activity;
-          chips.filter(x => x.dataset.activity).forEach(x => x.classList.remove('active'));
-          if (!same) btn.classList.add('active');
-        }
+        mainFilterButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeFilter = btn.dataset.filter || 'all';
+        render();
+      });
+    });
+
+    // Aktivitetsfilter: toggle, men maks én aktiv
+    activityFilterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const same = activeActivity === btn.dataset.activity;
+        activeActivity = same ? '' : btn.dataset.activity;
+        activityFilterButtons.forEach(b => b.classList.remove('active'));
+        if (!same) btn.classList.add('active');
         render();
       });
     });
@@ -531,7 +543,7 @@
     const eurInput = document.getElementById('eurInput');
     const nokOutput = document.getElementById('nokOutput');
     function updateCurrency(){
-      const eur = parseFloat(eurInput.value.replace(',', '.'));
+      const eur = parseFloat((eurInput.value || '').replace(',', '.'));
       if (isNaN(eur)) {
         nokOutput.textContent = "≈ 0 NOK";
         return;
