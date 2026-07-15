@@ -109,19 +109,18 @@
       white-space:nowrap;
     }
     .emergency{
-      flex:0 0 auto;
       padding:8px 10px;
       border-radius:999px;
       background:rgba(255,255,255,.05);
       border:1px solid rgba(255,255,255,.12);
       font-size:.8rem;
       color:var(--muted);
-      white-space:nowrap;
+      text-align:center;
+      margin:8px 0 10px;
     }
     .emergency strong{color:#ffd166}
 
     .weather-top{
-      margin-top:10px;
       padding:10px;
       border-radius:16px;
       background:rgba(255,255,255,.06);
@@ -288,9 +287,10 @@
           <input id="eurInput" class="currency-input" type="number" inputmode="decimal" placeholder="EUR" />
           <div class="currency-output" id="nokOutput">≈ 0 NOK</div>
         </div>
-        <div class="emergency">
-          <strong>Nød (+34):</strong> Brann 080 – Lege 061 – Politi 112
-        </div>
+      </div>
+
+      <div class="emergency">
+        <strong>Nød (+34):</strong> Brann 080 – Lege 061 – Politi 112
       </div>
 
       <div class="weather-top">
