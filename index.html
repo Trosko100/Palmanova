@@ -314,11 +314,6 @@
         <button class="chip" data-filter="apotek">Apotek</button>
       </div>
 
-      <div class="filters" id="activityFilters">
-        <button class="chip" data-activity="shopping-palmanova">Shopping Palmanova</button>
-        <button class="chip" data-activity="shopping-palma">Shopping Palma</button>
-      </div>
-
       <input id="search" class="search" type="search" placeholder="Søk navn, gate eller aktivitet..." />
 
       <div class="list" id="list"></div>
@@ -345,7 +340,7 @@
       {id:6,type:"glutenfri",name:"Be Max Beach House",address:"Carrer Cala Blanca",note:"Strandnær restaurant med GF-alternativer.",lat:39.5149,lng:2.5327,activity:"mat"},
       {id:7,type:"glutenfri",name:"McDonald's",address:"Palmanova / nærområdet",note:"Kjeden med standardisert meny, flere steder i området.",lat:39.5152,lng:2.5355,activity:"mat"},
 
-      // Restauranter
+      // Restauranter – fikset koordinater langs stranden / Passeig Mar
       {id:20,type:"restaurant",name:"Olive Tree",address:"Palmanova",note:"Middelhavsinspirert meny.",lat:39.5151,lng:2.5362,activity:"mat"},
       {id:21,type:"restaurant",name:"Iroko",address:"Palmanova",note:"Fusion og grill.",lat:39.5148,lng:2.5370,activity:"mat"},
       {id:22,type:"restaurant",name:"Max Garden",address:"Palmanova",note:"Moderne restaurant med vekt på matopplevelse.",lat:39.5156,lng:2.5368,activity:"mat"},
@@ -357,8 +352,8 @@
       {id:28,type:"restaurant",name:"Calvia Beach House",address:"Palmanova",note:"Restaurant med utsikt mot havet.",lat:39.5145,lng:2.5338,activity:"mat"},
       {id:29,type:"restaurant",name:"Paradise Beach",address:"Palmanova strandsonen",note:"Enkel beach bar og mat.",lat:39.5156,lng:2.5331,activity:"mat"},
       {id:30,type:"restaurant",name:"Bamboo Beach Bar",address:"Palmanova strandsonen",note:"Bar og snacks ved stranden.",lat:39.5151,lng:2.5327,activity:"mat"},
-      {id:31,type:"restaurant",name:"KABO Beach House",address:"Palmanova strandsonen",note:"Beach house med mat og drinker.",lat:39.5147,lng:2.5329,activity:"mat"},
-      {id:32,type:"restaurant",name:"Mar Sea Club",address:"Palmanova",note:"Klubb/restaurant ved sjøen.",lat:39.5144,lng:2.5334,activity:"mat"},
+      {id:31,type:"restaurant",name:"KABO Beach House",address:"Palmanova strandsonen",note:"Beach house med mat og drinker.",lat:39.5150,lng:2.5329,activity:"mat"},
+      {id:32,type:"restaurant",name:"Mar Sea Club",address:"Palmanova",note:"Klubb/restaurant ved sjøen.",lat:39.5145,lng:2.5334,activity:"mat"},
 
       // Sportspub
       {id:101,type:"sportspub",name:"PNG Sports Bar",address:"Passeig Mar, 32, Local 2",note:"Live sport på flere skjermer.",lat:39.5152,lng:2.5376,activity:"vm"},
@@ -424,9 +419,7 @@
     const listEl = document.getElementById('list');
     const searchEl = document.getElementById('search');
     const mainFilterButtons = [...document.querySelectorAll('#mainFilters .chip')];
-    const activityFilterButtons = [...document.querySelectorAll('#activityFilters .chip')];
     let activeFilter = 'all';
-    let activeActivity = '';
 
     function sortPlaces(arr){
       return [...arr].sort((a,b) => {
@@ -456,8 +449,7 @@
           (activeFilter === 'shopping' && p.type === 'shopping') ||
           (activeFilter === 'hotell' && p.type === 'hotell') ||
           (activeFilter === 'apotek' && p.type === 'apotek');
-        const activityMatch = !activeActivity || p.activity === activeActivity;
-        return typeMatch && activityMatch && hay.includes(q);
+        return typeMatch && hay.includes(q);
       });
 
       filtered = sortPlaces(filtered);
@@ -497,23 +489,11 @@
       });
     }
 
-    // Hovedfilter: kun én aktiv om gangen
     mainFilterButtons.forEach(btn => {
       btn.addEventListener('click', () => {
         mainFilterButtons.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         activeFilter = btn.dataset.filter || 'all';
-        render();
-      });
-    });
-
-    // Aktivitetsfilter: toggle, men maks én aktiv
-    activityFilterButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const same = activeActivity === btn.dataset.activity;
-        activeActivity = same ? '' : btn.dataset.activity;
-        activityFilterButtons.forEach(b => b.classList.remove('active'));
-        if (!same) btn.classList.add('active');
         render();
       });
     });
