@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="no">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
+  <title>Reiseplan – Bekkeblomveien i Palmanova</title>
+  <meta name="description" content="Reiseplan for turen fra Bekkeblomveien til Palmanova og tilbake til Oslo." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#07111f;
+      --panel:rgba(10,18,34,.88);
+      --panel2:rgba(10,18,34,.96);
+      --line:rgba(255,255,255,.12);
+      --text:#f5f8fc;
+      --muted:#b7c4d6;
+      --accent:#4fd1ff;
+      --accent2:#ffd166;
+      --shadow:0 18px 48px rgba(0,0,0,.34);
+      --radius:22px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 20% 0%, rgba(255,255,255,.12), transparent 22%),
+        linear-gradient(180deg, #08111f 0%, #0e2038 35%, #123d57 100%);
+      min-height:100vh;
+    }
+    .shell{
+      max-width:900px;
+      margin:0 auto;
+      padding:14px 12px 24px;
+    }
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:14px;
+    }
+    h1{
+      margin:0;
+      font-size:clamp(1.4rem,4.4vw,2.1rem);
+      letter-spacing:-.03em;
+    }
+    .back-btn{
+      border:none;
+      border-radius:999px;
+      padding:8px 14px;
+      background:rgba(79,209,255,.25);
+      border:1px solid rgba(79,209,255,.55);
+      color:var(--text);
+      font-weight:700;
+      font-size:.85rem;
+      cursor:pointer;
+      backdrop-filter: blur(12px);
+    }
+    .back-btn:hover{background:rgba(79,209,255,.35)}
+    .subtitle{
+      margin:6px 0 0;
+      color:var(--muted);
+      font-size:.9rem;
+    }
+    .panel{
+      margin-top:12px;
+      padding:12px;
+      border-radius:var(--radius);
+      background:var(--panel);
+      border:1px solid var(--line);
+      box-shadow:var(--shadow);
+    }
+    .date-row{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      margin-bottom:8px;
+    }
+    .date-row h2{
+      margin:0;
+      font-size:1.02rem;
+    }
+    .tag{
+      padding:4px 10px;
+      border-radius:999px;
+      font-size:.8rem;
+      font-weight:700;
+      background:rgba(79,209,255,.18);
+      border:1px solid rgba(79,209,255,.45);
+      white-space:nowrap;
+    }
+    .steps{
+      margin:0;
+      padding:0;
+      list-style:none;
+    }
+    .step{
+      display:flex;
+      gap:10px;
+      padding:10px 8px;
+      border-radius:14px;
+      background:var(--panel2);
+      border:1px solid rgba(255,255,255,.08);
+      margin-top:6px;
+    }
+    .time{
+      flex:0 0 54px;
+      font-weight:700;
+      font-size:.9rem;
+      color:var(--accent2);
+    }
+    .text{
+      flex:1;
+      font-size:.9rem;
+      color:var(--text);
+    }
+    .text span{
+      display:block;
+      color:var(--muted);
+      font-size:.82rem;
+      margin-top:2px;
+    }
+    .foot-note{
+      margin-top:12px;
+      font-size:.82rem;
+      color:var(--muted);
+      line-height:1.4;
+    }
+    @media (max-width: 520px){
+      header{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+      .date-row{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <div>
+        <h1>Reiseplan – Bekkeblomveien i Palmanova</h1>
+        <p class="subtitle">
+          Oversikt over turen fra Bekkeblomveien til Palmanova og retur til Oslo.
+        </p>
+      </div>
+      <button class="back-btn" onclick="window.location.href='index.html'">Tilbake til kart</button>
+    </header>
+
+    <section class="panel">
+      <div class="date-row">
+        <h2>Oslo → Palmanova – 16.07.2026</h2>
+        <div class="tag">Avreise</div>
+      </div>
+      <ul class="steps">
+        <li class="step">
+          <div class="time">05:10</div>
+          <div class="text">
+            Avreise Bekkeblomveien
+            <span>Transport til Gardermoen.</span>
+          </div>
+        </li>
+        <li class="step">
+          <div class="time">07:30</div>
+          <div class="text">
+            Ankomst Gardermoen
+            <span>Innsjekk og sikkerhetskontroll.</span>
+          </div>
+        </li>
+        <li class="step">
+          <div class="time">08:30</div>
+          <div class="text">
+            Fly DY1734 til Palma
+            <span>Direktefly Oslo (OSL) → Palma de Mallorca (PMI), ca. 3,5 timer flytid.</span>
+          </div>
+        </li>
+        <li class="step">
+          <div class="time">12:30</div>
+          <div class="text">
+            Taxi til Palmanova
+            <span>Fra Palma flyplass til leilighet/område ved Suites ROC Portonova og Passeig Mar.</span>
+          </div>
+        </li>
+      </ul>
+      <p class="foot-note">
+        Husk pass, boardingkort, og at flytiden Oslo–Palma typisk er rundt 3,5 timer med direktefly [web:79].
+      </p>
+    </section>
+
+    <section class="panel">
+      <div class="date-row">
+        <h2>Palmanova → Oslo – 21.07.2026</h2>
+        <div class="tag">Retur</div>
+      </div>
+      <ul class="steps">
+        <li class="step">
+          <div class="time">12:00</div>
+          <div class="text">
+            Taxi til Palma
+            <span>Avreise fra Palmanova til flyplassen.</span>
+          </div>
+        </li>
+        <li class="step">
+          <div class="time">15:00</div>
+          <div class="text">
+            Fly D85622 til Oslo
+            <span>Direktefly Palma de Mallorca (PMI) → Oslo (OSL).</span>
+          </div>
+        </li>
+        <li class="step">
+          <div class="time">19:00</div>
+          <div class="text">
+            Avreise Gardermoen
+            <span>Transport tilbake til Bekkeblomveien.</span>
+          </div>
+        </li>
+        <li class="step">
+          <div class="time">20:30</div>
+          <div class="text">
+            Hjemme i Bekkeblomveien
+            <span>Reisen er fullført.</span>
+          </div>
+        </li>
+      </ul>
+      <p class="foot-note">
+        D85622 er en Norwegian-rute Palma–Oslo med vanlig flytid rundt 3,5 timer, men avgangs- og ankomsttider kan endre seg – sjekk alltid oppdatert flight status før avreise [web:70][web:71][web:75].
+      </p>
+    </section>
+  </div>
+</body>
+</html>
