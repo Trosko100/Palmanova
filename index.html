@@ -194,7 +194,7 @@
       padding:11px 12px;
       border-radius:14px;
       border:1px solid rgba(255,255,255,.12);
-      background:rgba(0,0,020);
+      background:rgba(0,0,0,.20);
       color:var(--text);
       outline:none;
       font-size:.95rem;
@@ -326,9 +326,7 @@
   </main>
 
   <script>
-    // Steder med navn og adresse for Google Maps-søk
     const places = [
-      // Glutenfri
       {id:1,type:"glutenfri",name:"St. Lorenzo Tapas",address:"Cala Blanca 1, Son Matias, Palmanova",note:"100% glutenfri profil.",activity:"mat"},
       {id:2,type:"glutenfri",name:"L.A. American Diner",address:"Passeig Mar 18, Palmanova",note:"Godt kjent for glutenfrie valg.",activity:"mat"},
       {id:3,type:"glutenfri",name:"La Piazzetta",address:"Passeig Mar 10, Palmanova",note:"Glutenfrie alternativer.",activity:"mat"},
@@ -337,7 +335,6 @@
       {id:6,type:"glutenfri",name:"Be Max Beach House",address:"Carrer Cala Blanca, Palmanova",note:"Strandnær restaurant med GF-alternativer.",activity:"mat"},
       {id:7,type:"glutenfri",name:"McDonald's",address:"Palmanova",note:"Kjeden med standardisert meny.",activity:"mat"},
 
-      // Restauranter
       {id:20,type:"restaurant",name:"Olive Tree",address:"Carrer Cala Blanca 1, Palmanova",note:"Middelhavsinspirert meny.",activity:"mat"},
       {id:21,type:"restaurant",name:"Iroko",address:"Carrer Duc Estremera 3, Palmanova",note:"Fusion og grill.",activity:"mat"},
       {id:22,type:"restaurant",name:"Max Garden",address:"Carrer de París 2, Palmanova",note:"Moderne restaurant.",activity:"mat"},
@@ -352,17 +349,14 @@
       {id:31,type:"restaurant",name:"KABO Beach House",address:"Palmanova strandsonen",note:"Beach house med mat og drinker.",activity:"mat"},
       {id:32,type:"restaurant",name:"Mar Sea Club",address:"Palmanova strandsonen",note:"Klubb/restaurant ved sjøen.",activity:"mat"},
 
-      // Sportspub
       {id:101,type:"sportspub",name:"PNG Sports Bar",address:"Passeig Mar 32, Local 2, Palmanova",note:"Live sport på flere skjermer.",activity:"vm"},
       {id:102,type:"sportspub",name:"O'Neill's Bar",address:"Carrer de París 8, Palmanova",note:"Klassisk pub med sportsendinger.",activity:"vm"},
       {id:103,type:"sportspub",name:"JJs Sports Lounge",address:"Palmanova sentrum",note:"Sportslounge til kampkveld.",activity:"vm"},
 
-      // Aktiviteter
       {id:203,type:"aktivitet",name:"Vannsport",address:"Palmanova stranden",note:"Jet-ski, båtturer, bananbåt, parasailing.",activity:"vannsport"},
       {id:204,type:"aktivitet",name:"Trening",address:"Palmanova Promenade",note:"Løp, styrke og strandtrening.",activity:"trening"},
       {id:205,type:"aktivitet",name:"Sykkelutleie",address:"Palmanova sentrum",note:"Leie sykkel for strandpromenade.",activity:"sykkelutleie"},
 
-      // Shopping Palmanova
       {id:301,type:"shopping",name:"Passeig Mar-butikkene",address:"Passeig Mar, Palmanova",note:"Suvenirer, klær, solutstyr.",activity:"shopping-palmanova"},
       {id:302,type:"shopping",name:"Lokale matbutikker",address:"Palmanova sidegatene",note:"Dagligvarer, snacks og drikke.",activity:"shopping-palmanova"},
       {id:303,type:"shopping",name:"Luya Accesorios",address:"Palmanova",note:"Accessories, smykker.",activity:"shopping-palmanova"},
@@ -370,15 +364,12 @@
       {id:305,type:"shopping",name:"Tabu Mall",address:"Palmanova",note:"Mindre senter med butikker.",activity:"shopping-palmanova"},
       {id:306,type:"shopping",name:"Ibizaabi",address:"Palmanova",note:"Mote og lifestyle.",activity:"shopping-palmanova"},
 
-      // Shopping Palma
       {id:401,type:"shopping",name:"El Corte Inglés",address:"Plaça España, Palma",note:"Stort shoppingsenter.",activity:"shopping-palma"},
       {id:402,type:"shopping",name:"Avinguda del Rei Jaume III",address:"Palma sentrum",note:"Merketøy og mote.",activity:"shopping-palma"},
       {id:403,type:"shopping",name:"Mercat de l'Olivar",address:"Palma sentrum",note:"Markedshall med mat.",activity:"shopping-palma"},
 
-      // Hotell
       {id:501,type:"hotell",name:"Suites ROC Portonova",address:"Passeig Mar 2, Palmanova",note:"Leilighetshotell ved sjøen.",activity:"hotell"},
 
-      // Apotek
       {id:601,type:"apotek",name:"Farmacia Antonio Miquel Ferrer",address:"Carrer Voranova, Son Caliu, Palmanova",note:"Apotek nær Palmanova.",activity:"apotek"},
       {id:602,type:"apotek",name:"Farmàcia Chemist Apotheke",address:"Passeig Mar 40, Palmanova",note:"Apotek ved strandpromenaden.",activity:"apotek"},
       {id:603,type:"apotek",name:"Lorenzo Perelló Rosselló",address:"Calle Mare Nostrum 3, Palmanova",note:"Apotek i Palmanova.",activity:"apotek"}
@@ -391,7 +382,6 @@
     const mainFilterButtons = [...document.querySelectorAll('#mainFilters .chip')];
     let activeFilter = 'all';
 
-    // Lag Google Maps søkelenke
     function googleMapsUrl(name, address){
       const query = encodeURIComponent(`${name} ${address}`);
       return `https://www.google.com/maps/search/${query}`;
@@ -464,7 +454,6 @@
 
     searchEl.addEventListener('input', render);
 
-    // Vær 16.–21. juli
     const weather = [
       ["16. juli","30°C / 24°C","Øst 10 km/t","UV 9","Rolig og varmt"],
       ["17. juli","31°C / 25°C","Sør 14 km/t","UV 10","Sterk sol"],
@@ -483,7 +472,6 @@
       </div>
     `).join('');
 
-    // Valutakalkulator
     const eurInput = document.getElementById('eurInput');
     const nokOutput = document.getElementById('nokOutput');
     function updateCurrency(){
